@@ -358,7 +358,7 @@
   xnew(ffire_c) = xold(ffire_c) + dt2 * P
 
 
-!!-> SeaSalt_f !DYTT-SS 15/05/26 commenting out whole species
+!!-> SeaSalt_f !DYTT-SS 15/05/26 commenting out whole species - this is now accounted for in the production of pCl, pNa, pMg, pK, pCa, pSO4 and pRem, such that mass is conserved.
 
 !  P = rcemis(SEASALT_F,K)
   

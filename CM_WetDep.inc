@@ -53,7 +53,7 @@ type(dep_t), public, dimension(NWETDEP_ADV), save :: CM_WDepMap = (/ &
 , dep_t("ffire_BC  ", "PMf       ", -999.0 ) &
 , dep_t("ffire_remPPM25", "PMf       ", -999.0 ) &
 , dep_t("ffire_c   ", "PMc       ", -999.0 ) &
-!, dep_t("SeaSalt_f ", "SSf       ", -999.0 ) & !DYTT-SS 15/05/26
+!, dep_t("SeaSalt_f ", "SSf       ", -999.0 ) & !DYTT-SS 15/05/26 Removed fine sea salt
 , dep_t("SeaSalt_c ", "SSc       ", -999.0 ) &
 , dep_t("Dust_road_f", "PMf       ", -999.0 ) &
 , dep_t("Dust_road_c", "PMc       ", -999.0 ) &
@@ -88,12 +88,12 @@ type(dep_t), public, dimension(NWETDEP_ADV), save :: CM_WDepMap = (/ &
 , dep_t("POLLEN_MUGWORT3", "POLLw     ", -999.0 ) &
 , dep_t("POLLEN_MUGWORT4", "POLLw     ", -999.0 ) &
 , dep_t("POLLEN_MUGWORT5", "POLLw     ", -999.0 ) &
-, dep_t("HCl            ", "HNO3      ", -999.0 ) & !DYTT 25/02/26 added this line. Wet dep like HNO3
-, dep_t("pCl            ", "PMf       ", -999.0 ) & !DYTT 25/02/26 added this line. Wet dep like fine PM
-, dep_t("pNa            ", "PMf       ", -999.0 ) & !DYTT-IM 07/05/26 added this
-, dep_t("pMg            ", "PMf       ", -999.0 ) & !DYTT-IM 07/05/26 added this
-, dep_t("pCa            ", "PMf       ", -999.0 ) & !DYTT-IM 07/05/26 added this
-, dep_t("pK             ", "PMf       ", -999.0 ) & !DYTT-IM 07/05/26 added this
-, dep_t("pSO4           ", "PMf       ", -999.0 ) & !DYTT-IM 07/05/26 added this
-, dep_t("pRem           ", "PMf       ", -999.0 ) & !DYTT-IM 07/05/26 added this
+, dep_t("HCl            ", "HNO3      ", -999.0 ) & !DYTT 25/02/26 added this line. Wet dep like HNO3, following approach by Wang et al. 2025 (https://doi.org/10.1016/j.envint.2024.109207)
+, dep_t("pCl            ", "PMf       ", -999.0 ) & !DYTT 25/02/26 added this line. Wet dep like all other fine PM, as it is assumed to be internally mixed. 
+, dep_t("pNa            ", "PMf       ", -999.0 ) & !DYTT-IM 07/05/26 added this line. Wet dep like all other fine PM, as it is assumed to be internally mixed. 
+, dep_t("pMg            ", "PMf       ", -999.0 ) & !DYTT-IM 07/05/26 added this line. Wet dep like all other fine PM, as it is assumed to be internally mixed. 
+, dep_t("pCa            ", "PMf       ", -999.0 ) & !DYTT-IM 07/05/26 added this line. Wet dep like all other fine PM, as it is assumed to be internally mixed. 
+, dep_t("pK             ", "PMf       ", -999.0 ) & !DYTT-IM 07/05/26 added this line. Wet dep like all other fine PM, as it is assumed to be internally mixed. 
+, dep_t("pSO4           ", "PMf       ", -999.0 ) & !DYTT-IM 07/05/26 added this line. Wet dep like all other fine PM, as it is assumed to be internally mixed. 
+, dep_t("pRem           ", "PMf       ", -999.0 ) & !DYTT-IM 07/05/26 added this line. Wet dep like all other fine PM, as it is assumed to be internally mixed. 
 /)

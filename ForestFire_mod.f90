@@ -318,7 +318,7 @@ subroutine Config_Fire()
   KEMISFIRE = k
   N_LEVELS = KMAX_MID - KEMISFIRE + 1 
 
-  ! The following if statement was modified by damtan on 04/02/26
+  ! The following if statement was modified by DYTT on 04/02/26
   if(MasterProc .and. first_call) then 
     
     ! case for P800

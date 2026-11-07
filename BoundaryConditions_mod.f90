@@ -135,7 +135,7 @@ end type defBIC_t
 
 ! Define concs where a simple  specification based on lat/mm
 ! etc. will be given
-type(defBIC_t), parameter, dimension(21+6) :: defBIC = [& !DYTT-IM 15/05/26 added in boundary conditions for 7 new sea salt species, and commented out seasalt_f boundary condition so only 6 additional species
+type(defBIC_t), parameter, dimension(21+6) :: defBIC = [& !DYTT-IM 15/05/26 added in boundary conditions for 7 new sea salt species, and removed seasalt_f boundary condition so only 6 additional species
     !                           surf   dmax   amp   hz    vmin  hmin conv_fac!ref
     !                            ppb          ppb   km   hmin,vmin:same units as input data=conv_fac
    defBIC_t('SO2  '  ,  0.15 , 15.0, 0.05, 999.9, 0.03, 0.03,PPB)&!W99, bcKz vmin
@@ -144,14 +144,14 @@ type(defBIC_t), parameter, dimension(21+6) :: defBIC = [& !DYTT-IM 15/05/26 adde
   ,defBIC_t('NO2  '  ,  0.1  , 15.0, 0.03, 4.0  , 0.05, 0.04,PPB)&
   ,defBIC_t('PAN  '  ,  0.20 ,120.0, 0.15, 999.9, 0.20, 0.1 ,PPB)&!Kz change vmin
   ,defBIC_t('CO   '  ,  125.0, 75.0, 35.0, 25.0 , 70.0, 30.0,PPB)&!JEJ-W
-  !,defBIC_t('SeaSalt_f', 0.2  , 15.0,  0.05,  1.6 , 0.01, 0.01,PPB)& !DYTT-SS 15/05/26 commenting out sea salt (fine)
-  ,defBIC_t('pCl', 0.2*58.0*0.5504/35.45, 15.0,  0.05*58.0*0.5504/35.45,  1.6 , 0.01, 0.01,PPB)& !DYTT-IM 03/06/26 added this. For surf and amp values, taking seasalt_f values * MW_SSf * % contribution by mass * MW_species. Assuming internal mixing here!!
-  ,defBIC_t('pNa', 0.2*58.0*0.3061/22.99, 15.0,  0.05*58.0*0.3061/22.99,  1.6 , 0.01, 0.01,PPB)& !DYTT-IM 03/06/26 added this. For surf and amp values, taking seasalt_f values * MW_SSf * % contribution by mass * MW_species. Assuming internal mixing here!!
-  ,defBIC_t('pMg', 0.2*58.0*0.0369/24.31, 15.0,  0.05*58.0*0.0369/24.31,  1.6 , 0.01, 0.01,PPB)& !DYTT-IM 03/06/26 added this. For surf and amp values, taking seasalt_f values * MW_SSf * % contribution by mass * MW_species. Assuming internal mixing here!!
-  ,defBIC_t('pCa', 0.2*58.0*0.0116/40.08, 15.0,  0.05*58.0*0.0116/40.08,  1.6 , 0.01, 0.01,PPB)& !DYTT-IM 03/06/26 added this. For surf and amp values, taking seasalt_f values * MW_SSf * % contribution by mass * MW_species. Assuming internal mixing here!!
-  ,defBIC_t('pK',  0.2*58.0*0.011/39.10,  15.0,  0.05*58.0*0.011/39.10,   1.6 , 0.01, 0.01,PPB)& !DYTT-IM 03/06/26 added this. For surf and amp values, taking seasalt_f values * MW_SSf * % contribution by mass * MW_species. Assuming internal mixing here!!
-  ,defBIC_t('pSO4',0.2*58.0*0.0768/96.06, 15.0,  0.05*58.0*0.0768/96.06,  1.6 , 0.01, 0.01,PPB)& !DYTT-IM 03/06/26 added this. For surf and amp values, taking seasalt_f values * MW_SSf * % contribution by mass * MW_species. Assuming internal mixing here!!
-  ,defBIC_t('pRem',0.2*58.0*0.0072/79.904,15.0,  0.05*58.0*0.0072/79.904, 1.6 , 0.01, 0.01,PPB)& !DYTT-IM 03/06/26 added this. For surf and amp values, taking seasalt_f values * MW_SSf * % contribution by mass * MW_species. Assuming internal mixing here!!
+  !,defBIC_t('SeaSalt_f', 0.2  , 15.0,  0.05,  1.6 , 0.01, 0.01,PPB)& !DYTT-SS 15/05/26 removing sea salt (fine) boundary condition
+  ,defBIC_t('pCl', 0.2*58.0*0.5504/35.45, 15.0,  0.05*58.0*0.5504/35.45,  1.6 , 0.01, 0.01,PPB)& !DYTT-IM 03/06/26 added this. For surf and amp values, taking seasalt_f values * MW_SSf * % contribution by mass / MW_species. 
+  ,defBIC_t('pNa', 0.2*58.0*0.3061/22.99, 15.0,  0.05*58.0*0.3061/22.99,  1.6 , 0.01, 0.01,PPB)& !DYTT-IM 03/06/26 added this. For surf and amp values, taking seasalt_f values * MW_SSf * % contribution by mass / MW_species. 
+  ,defBIC_t('pMg', 0.2*58.0*0.0369/24.31, 15.0,  0.05*58.0*0.0369/24.31,  1.6 , 0.01, 0.01,PPB)& !DYTT-IM 03/06/26 added this. For surf and amp values, taking seasalt_f values * MW_SSf * % contribution by mass / MW_species. 
+  ,defBIC_t('pCa', 0.2*58.0*0.0116/40.08, 15.0,  0.05*58.0*0.0116/40.08,  1.6 , 0.01, 0.01,PPB)& !DYTT-IM 03/06/26 added this. For surf and amp values, taking seasalt_f values * MW_SSf * % contribution by mass / MW_species. 
+  ,defBIC_t('pK',  0.2*58.0*0.011/39.10,  15.0,  0.05*58.0*0.011/39.10,   1.6 , 0.01, 0.01,PPB)& !DYTT-IM 03/06/26 added this. For surf and amp values, taking seasalt_f values * MW_SSf * % contribution by mass / MW_species. 
+  ,defBIC_t('pSO4',0.2*58.0*0.0768/96.06, 15.0,  0.05*58.0*0.0768/96.06,  1.6 , 0.01, 0.01,PPB)& !DYTT-IM 03/06/26 added this. For surf and amp values, taking seasalt_f values * MW_SSf * % contribution by mass / MW_species. 
+  ,defBIC_t('pRem',0.2*58.0*0.0072/79.904,15.0,  0.05*58.0*0.0072/79.904, 1.6 , 0.01, 0.01,PPB)& !DYTT-IM 03/06/26 added this. For surf and amp values, taking seasalt_f values * MW_SSf * % contribution by mass / MW_species. 
   ,defBIC_t('SeaSalt_c', 1.5  , 15.0,  0.25,  1.6 , 0.01, 0.01,PPB)&
   ,defBIC_t('SeaSalt_g', 1.0  , 15.0,  0.5,  1.0 , 0.01, 0.01,PPB)&
   ,defBIC_t('C2H6 '  ,  2.0  , 75.0, 1.0 , 10.0 , 0.05, 0.05,PPB)&
@@ -1384,8 +1384,8 @@ real :: trend_o3=1.0, trend_co, trend_voc
         'C2H6','C4H10','PAN' ,'NO3_c',&
         'SO2'   , 'SO4'  , 'HCHO' , &
         'pCl', 'pNa', 'pMg', 'pCa', 'pK', 'pSO4', 'pRem', & !DYTT-IM 15/05/26 added this line
-        !'SeaSalt_f','SeaSalt_c', 'SeaSalt_g', & !DYTT-SS 15/05/26 commenting out fine sea salt - see line below
-        'SeaSalt_c', 'SeaSalt_g', & 
+        !'SeaSalt_f','SeaSalt_c', 'SeaSalt_g', & !DYTT-SS 15/05/26 commenting out this line, replacing by line below
+        'SeaSalt_c', 'SeaSalt_g', &  !DYTT-SS 15/05/26 removed SeaSalt_f
         'CH3CHO', 'NH4_f', 'NO3_f')
     ! NB since we only call once per month we add 15 days to
     ! day-number to get a mid-month value

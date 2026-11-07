@@ -474,7 +474,7 @@ DATA eqxy(jRHDc,0:jSOL)/  ZERO, &
       xYPa(i,n,mciso) =  NAin(i)*1.E-6_dp               ! Na+  (ss + xsod) (p)   [mol/m^3]
       xYMa(i,n,maisu) =  SO4in(i)*1.E-6_dp              ! H2SO4(g) + SO4- + HSO4-- (p) [mol/m^3]
       xYMa(i,n,maino) = (HNO3in(i)+NO3in(i))*1.E-6_dp   ! HNO3 (g) + NO3-  (p)   [mol/m^3]
-      xYMa(i,n,maicl) = (HClin(i)+CLin(i))*1.E-6_dp     ! HCl  (g) + Cl-   (p)   [mol/m^3]        !DYTT 25/02/26 added in HClin. previously !xYMa(i,n,maicl) =  CLin(i)*1.E-6_dp               ! HCl  (g) + Cl-   (p)   [mol/m^3]
+      xYMa(i,n,maicl) = (HClin(i)+CLin(i))*1.E-6_dp     ! HCl  (g) + Cl-   (p)   [mol/m^3]        !DYTT 25/02/26 added HClin. previously !xYMa(i,n,maicl) =  CLin(i)*1.E-6_dp               ! HCl  (g) + Cl-   (p)   [mol/m^3]
    END DO
 !  END INPUT for EMEP
 !+++++++++++++++++++++++++++++++++++++++++++++++++++++++

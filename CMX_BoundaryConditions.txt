@@ -29,7 +29,7 @@
 # CMX_BoundaryConditions.txt for generic emep run, Sea-salt
 # globBC     emep             fac  wanted
 #
-  ! 'SeaSalt_f  ','SeaSalt_f',   1.0,   T !DYTT-SS 15/05/26
+  ! 'SeaSalt_f  ','SeaSalt_f',   1.0,   T !DYTT-SS 15/05/26 removed fine sea salt. Replacing with species below.
   'pCl        ','pCl      ',   1.0,   T !DYTT-IM 15/05/26 added this
   'pNa        ','pNa      ',   1.0,   T !DYTT-IM 15/05/26 added this
   'pMg        ','pMg      ',   1.0,   T !DYTT-IM 15/05/26 added this

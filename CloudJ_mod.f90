@@ -81,12 +81,12 @@ MODULE CloudJ_mod
 
     integer, save :: sulph_i, dustfroad_i, dustfwb_i, dustfsah_i
     integer, save :: dustcroad_i, dustcwb_i, dustcsah_i
-    !integer, save :: seasaltf_i, seasaltc_i 
+    !integer, save :: seasaltf_i, seasaltc_i !DYTT-SS 15/05/26 commented out this line. Replaced by line below
     integer, save :: seasaltc_i, pCl_i, pNa_i, pMg_i, pCa_i, pK_i, pSO4_i, pRem_i  !DYTT-SS 15/05/26 replace seasaltf_i with individual species. Assume pCl is predominantly sea salt
     integer, save :: ffirebc_i, ffireom_i, ffireppm25_i, ffirec_i 
 
-    !integer, save :: DDdep_ssf, DDdep_ssc, DDdep_dustf, DDdep_dustc
-    integer, save :: DDdep_PMf, DDdep_ssc, DDdep_dustf, DDdep_dustc !DYTT-SS 16/05/26 replacing DDdep_ssf with DDdep_PMf. Might go back to DDdep_ssf later
+    !integer, save :: DDdep_ssf, DDdep_ssc, DDdep_dustf, DDdep_dustc !DYTT-SS 16/05/26 commented out this line, replaced by line below
+    integer, save :: DDdep_PMf, DDdep_ssc, DDdep_dustf, DDdep_dustc !DYTT-SS 16/05/26 replacing DDdep_ssf with DDdep_PMf. This is based on the assumption that fine sea salt is internally mixed, and therefore deposits like all other fine PM.
     
 !---U0 = cos (SZA), SZA = solar zenith angle. Activate GIT?
 !---REFLB = Lambertian reflectivity at the Lower Boundary
@@ -349,14 +349,14 @@ SUBROUTINE setup_phot_cloudj(i_emep,j_emep,errcode,mode)
       dustcroad_i  = find_index( "Dust_road_c   ", species_adv(:)%name )
       dustcwb_i    = find_index( "Dust_wb_c     ", species_adv(:)%name )
       dustcsah_i   = find_index( "Dust_sah_c    ", species_adv(:)%name )
-      !seasaltf_i   = find_index( "SeaSalt_f     ", species_adv(:)%name ) !DYTT-SS 15/05/26
-      pCl_i        = find_index( "pCl           ", species_adv(:)%name ) !DYTT-SS 16/05/26 add in individual species
-      pNa_i        = find_index( "pNa           ", species_adv(:)%name ) !DYTT-SS 16/05/26 add in individual species
-      pMg_i        = find_index( "pMg           ", species_adv(:)%name ) !DYTT-SS 16/05/26 add in individual species
-      pCa_i        = find_index( "pCa           ", species_adv(:)%name ) !DYTT-SS 16/05/26 add in individual species
-      pK_i         = find_index( "pK            ", species_adv(:)%name ) !DYTT-SS 16/05/26 add in individual species
-      pSO4_i       = find_index( "pSO4          ", species_adv(:)%name ) !DYTT-SS 16/05/26 add in individual species
-      pRem_i       = find_index( "pRem          ", species_adv(:)%name ) !DYTT-SS 16/05/26 add in individual species
+      !seasaltf_i   = find_index( "SeaSalt_f     ", species_adv(:)%name ) !DYTT-SS 15/05/26 removing fine sea salt, replacing it with its individual ionic components (below)
+      pCl_i        = find_index( "pCl           ", species_adv(:)%name ) !DYTT-SS 16/05/26 added this line
+      pNa_i        = find_index( "pNa           ", species_adv(:)%name ) !DYTT-SS 16/05/26 added this line
+      pMg_i        = find_index( "pMg           ", species_adv(:)%name ) !DYTT-SS 16/05/26 added this line
+      pCa_i        = find_index( "pCa           ", species_adv(:)%name ) !DYTT-SS 16/05/26 added this line
+      pK_i         = find_index( "pK            ", species_adv(:)%name ) !DYTT-SS 16/05/26 added this line
+      pSO4_i       = find_index( "pSO4          ", species_adv(:)%name ) !DYTT-SS 16/05/26 added this line
+      pRem_i       = find_index( "pRem          ", species_adv(:)%name ) !DYTT-SS 16/05/26 added this line
       seasaltc_i   = find_index( "SeaSalt_c     ", species_adv(:)%name )
       ffirebc_i    = find_index( "ffire_BC      ", species_adv(:)%name )
       ffireom_i    = find_index( "ffire_OM      ", species_adv(:)%name )
@@ -364,8 +364,8 @@ SUBROUTINE setup_phot_cloudj(i_emep,j_emep,errcode,mode)
       ffirec_i     = find_index( "ffire_c       ", species_adv(:)%name )
 
       ! aerosol properties 
-      !DDdep_ssf   = find_index(  'SSf',DDspec(:)%name, any_case=.true. )
-      DDdep_PMf   = find_index(  'PMf',DDspec(:)%name, any_case=.true. ) !DYTT-SS 16/05/26 replace with PMf case as discussed. Might need to go back to SSf case though
+      !DDdep_ssf   = find_index(  'SSf',DDspec(:)%name, any_case=.true. ) !DYTT-SS 16/05/26 commented out this line, replaced it with line below
+      DDdep_PMf   = find_index(  'PMf',DDspec(:)%name, any_case=.true. ) !DYTT-SS 16/05/26 replace with SSf with PMf, assuming that because SSf is internally mixed, it will deposit like all other fine PM.
       DDdep_ssc   = find_index(  'SSc',DDspec(:)%name, any_case=.true. )
       DDdep_dustf = find_index(  'DUf',DDspec(:)%name, any_case=.true. )
       DDdep_dustc = find_index(  'DUc',DDspec(:)%name, any_case=.true. )
@@ -476,14 +476,14 @@ SUBROUTINE setup_phot_cloudj(i_emep,j_emep,errcode,mode)
                                         * DeltZ(L) * species_adv(dustcsah_i)%molwt
 
             ! ----fine sea salt; hygroscopic growth mass gain using Gerber functions
-            !if (seasaltf_i>0) then !DYTT-SS 15/05/26 need to change this statement. Assume that if pMg_i is present, this means sea salt is present
-            if (pMg_i>0) then
+            !if (seasaltf_i>0) then !DYTT-SS 15/05/26 need to change this, as seasaltf no-longer exists. Assume that if pMg_i is present, this means sea salt is present:
+            if (pMg_i>0) then !DYTT-SS 15/05/26 this replaces line above.
 
-              !SEAS_F(L)  = xn_adv(seasaltf_i,i_emep,j_emep,k)               & 
+              !SEAS_F(L)  = xn_adv(seasaltf_i,i_emep,j_emep,k)               &  !DYTT-SS 16/05/26 remove this sum, because seasaltf no-longer resists. Replace by sum below.
               !           * 1000 * roa(i_emep,j_emep,k,1) / ATWAIR           &
               !           * species_adv(seasaltf_i)%molwt   ! here still in g/m3
 
-              SEAS_F(L)  = xn_adv(pCl_i,i_emep,j_emep,k)               &  !DYTT-SS 16/05/26 add up individual components of fine sea salt
+              SEAS_F(L)  = xn_adv(pCl_i,i_emep,j_emep,k)               &  !DYTT-SS 16/05/26 add up individual components of fine sea salt. Assume pCl is mainly from fine sea salt.
                          * 1000 * roa(i_emep,j_emep,k,1) / ATWAIR           &
                          * species_adv(pCl_i)%molwt  & ! here still in g/m3 
                          + &
@@ -512,7 +512,7 @@ SUBROUTINE setup_phot_cloudj(i_emep,j_emep,errcode,mode)
                          * species_adv(pRem_i)%molwt  ! here still in g/m3 
 
               ! calculate H2O mass using Gerber functions for geom. mean radius growth and geom. std growth
-              dry_d       = DDspec(DDdep_PMf)%DpgN ! geometric mean diameter in meters !DYTT-SS 16/05/26 replaced DDdep_ssf with DDdep_PMf
+              dry_d       = DDspec(DDdep_PMf)%DpgN ! geometric mean diameter in meters !DYTT-SS 16/05/26 replaced DDdep_ssf with DDdep_PMf as discussed in previous comments
               wet_d_ssf   = 2 * GerberWetRad( dry_d * 0.5, RRR(L), DDspec(DDdep_PMf)%Gb ) !DYTT-SS 16/05/26 replaced DDdep_ssf with DDdep_PMf
               sig_wet_ssf = GerberWetSig( dry_d * 0.5, DDspec(DDdep_PMf)%sigma, RRR(L), DDspec(DDdep_PMf)%Gb ) !DYTT-SS 16/05/26 replaced DDdep_ssf with DDdep_PMf
 
@@ -579,7 +579,7 @@ SUBROUTINE setup_phot_cloudj(i_emep,j_emep,errcode,mode)
 
             ! UMich sea salt bin RADIUS range 0.05-0.63, 0.63-1.26, 1.26-2.50, 2.50-10 um
             ! EMEP fine mode and coarse mode from wet radius calculations; bin1 covers basically all of fine mode
-            !if (seasaltf_i>0) SS_bin1 = (LogNormFracBelow(wet_mmd_ssf,sig_wet_ssf,1.26e-6) &
+            !if (seasaltf_i>0) SS_bin1 = (LogNormFracBelow(wet_mmd_ssf,sig_wet_ssf,1.26e-6) & !DYTT-SS 16/05/26 replaced if statement with the below, because seasaltf no-longer exists.
             !                           - LogNormFracBelow(wet_mmd_ssf,sig_wet_ssf,0.10e-6) ) 
             if (pMg_i>0) SS_bin1 = (LogNormFracBelow(wet_mmd_ssf,sig_wet_ssf,1.26e-6) & !DYTT-SS 16/05/26 replaced condition for if pMg_i > 0 as a proxi for fine sea salt
                                        - LogNormFracBelow(wet_mmd_ssf,sig_wet_ssf,0.10e-6) ) 

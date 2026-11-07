@@ -202,7 +202,7 @@ module ChemSpecs_mod
   integer, public, parameter :: & !DYTT 25/02/26 added HCl and pCl
       HCl= 137 &
     , pCl= 138 &
-    , pNa= 139 & !DYTT-IM 06/05/26 added additional ionic components - just from sea salt for now.
+    , pNa= 139 & !DYTT-IM 06/05/26 added ionic species found in fine sea salt
     , pMg= 140 &
     , pCa= 141 &
     , pK=  142 &
@@ -211,7 +211,7 @@ module ChemSpecs_mod
   
   !+ Defines indices for ADV : Advected species
   integer, public, parameter :: FIRST_ADV=16, &
-                                 LAST_ADV=144 !DYTT-IM 25/02/26 changed this. Previously LAST_ADV=136
+                                 LAST_ADV=136+8 !DYTT-IM 25/02/26 changed this. Previously LAST_ADV=136. +1 for HCl, +7 for ionic species found in sea salt
   
   integer, public, parameter :: &
       IXADV_RO2POOL     =   1  &
@@ -337,7 +337,7 @@ module ChemSpecs_mod
       IXADV_ffire_BC    = 101  &
     , IXADV_ffire_remPPM25= 102  &
     , IXADV_ffire_c     = 103  &
-    !, IXADV_SeaSalt_f   = 104  & !DYTT-SS 15/05/26
+    !, IXADV_SeaSalt_f   = 104  & !DYTT-SS 15/05/26 Removed fine sea salt
     , IXADV_SeaSalt_c   = 105  &
     , IXADV_Ash_f       = 106  &
     , IXADV_Ash_c       = 107  &
@@ -361,7 +361,7 @@ module ChemSpecs_mod
       IXADV_remPPM_c_Res= 121 &
     , IXADV_HCl    = 122 & !DYTT 25/02/26 added HCl
     , IXADV_pCl    = 123 &  !DYTT 25/02/26 added pCl
-    , IXADV_pNa    = 124 & !DYTT-IM 06/05/26 added additional ionic components - just from sea salt for now.
+    , IXADV_pNa    = 124 & !DYTT-IM 06/05/26 added ionic species found in sea salt
     , IXADV_pMg    = 125 &
     , IXADV_pCa    = 126 &
     , IXADV_pK     = 127 &

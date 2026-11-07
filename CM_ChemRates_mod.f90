@@ -250,8 +250,8 @@ contains
               & GAM=0.1,  &
               & S=S_M2M3(AERO%DU_C,  &
               & :))
-    rct(99,:) = 4.0 * UPTAKERATE(CHNO3,  & !DYTT 10/04/26 double the reaction rate. 20/04/26 10 x reaction rate just to experiment 23/04/26 back to original
-              & GAM=0.01,  &
+    rct(99,:) = UPTAKERATE(CHNO3,  & 
+              & GAM=0.04,  & !DYTT previously GAM=0.01. GAM is the uptake coefficient of HNO3 onto coarse sea salt. This value of GAM gives best agreement with HCl measurements.
               & S=S_M2M3(AERO%SS_C,  &
               & :))
     rct(100,:) = UPTAKERATE(CHO2,  &

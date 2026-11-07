@@ -759,9 +759,9 @@ elemental function pmH2O_gerberSig(dry_ug,rho_kgm3,Dp,Dpw,sigma_d,sigma_w) resul
      real :: rho_p    ! particle density
      integer :: Gb    ! GerberClass ! 
    end type PM_t
-   type(PM_t), dimension(11-1):: pm = [ & !DYTT-SS 16/05/26 reduce this by 1 because commenting out SSf
+   type(PM_t), dimension(11-1):: pm = [ & !DYTT-SS 16/05/26 reduce this by 1 because I am removing SSf
      PM_t( 'PMf'   , 0.33, 1.8, 1600,  1)& ! as SAI_F 
-    !,PM_t( 'SSf'   , 0.33, 1.8, 2200,  2)& ! as SSF !DYTT-SS 16/05/26
+    !,PM_t( 'SSf'   , 0.33, 1.8, 2200,  2)& ! as SSF !DYTT-SS 16/05/26 removing SSf as fine sea salt is no-longer removed
     ,PM_t( 'DUf'   , 0.33, 1.8, 2600, -1)& ! NEW?? CHECK
     ,PM_t( 'PMc  ',3.00,  2.0, 2200,  1)& ! as PM QUERY 20
     ! SSc, DUc have dummy values, CHECK!!

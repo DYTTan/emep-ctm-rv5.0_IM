@@ -176,7 +176,7 @@ contains
 !    Skip PM=5 as mixed 
 
        aeroDDspec(AERO%PM_F)= find_index('PMf',DDspec(:)%name)
-       !aeroDDspec(AERO%SS_F)= find_index('SSf',DDspec(:)%name) !DYTT-SS 16/05/26
+       !aeroDDspec(AERO%SS_F)= find_index('SSf',DDspec(:)%name) !DYTT-SS 16/05/26 removed SSf
        aeroDDspec(AERO%DU_F)= find_index('DUf',DDspec(:)%name)
        aeroDDspec(AERO%SS_C)= find_index('SSc',DDspec(:)%name)
        aeroDDspec(AERO%DU_C)= find_index('DUc',DDspec(:)%name)

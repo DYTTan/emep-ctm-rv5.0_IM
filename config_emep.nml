@@ -139,7 +139,7 @@ OutputConcs=
   'NO3_F'               ,'ug'  ,'2d','AIR_CONCS','SPEC' ,'YMD',
   'NO3_C'               ,'ug'  ,'2d','AIR_CONCS','SPEC' ,'YMD',
   'NH4_F'               ,'ug'  ,'2d','AIR_CONCS','SPEC' ,'YMD',
-  ! 'SEASALT_F'           ,'ug'  ,'2d','AIR_CONCS','SPEC' ,'YMD', !DYTT-SS 15/05/26
+  ! 'SEASALT_F'           ,'ug'  ,'2d','AIR_CONCS','SPEC' ,'YMD', !DYTT-SS 15/05/26 removed SEASALT_F
   'SEASALT_C'           ,'ug'  ,'2d','AIR_CONCS','SPEC' ,'YMD',
   'DUST_ROAD_F'         ,'ug'  ,'2d','AIR_CONCS','SPEC' ,'YMD',
   'DUST_ROAD_C'         ,'ug'  ,'2d','AIR_CONCS','SPEC' ,'YMD',

@@ -857,7 +857,7 @@ integer, public, save :: SO2_ix, O3_ix, NO2_ix, SO4_ix, NH4_f_ix, NO3_ix,&
      PRRO2_ix,OXYO2_ix,C5DICARBO2_ix,ISRO2_ix,MACRO2_ix,TERPO2_ix,H2O2_ix,&
      !N2O5_ix, OM_ix, SSf_ix, SSc_ix, Dustwbf_ix, DustSahf_ix, HCl_ix, pCl_ix,& !DYTT 25/02/26 added HCl_ix and pCl_ix
      N2O5_ix, OM_ix, SSc_ix, Dustwbf_ix, DustSahf_ix, HCl_ix, pCl_ix,& !DYTT-SS 16/05/26 removed SSf_ix
-     pNa_ix, pMg_ix, pCa_ix, pK_ix, pSO4_ix, pRem_ix !DYTT-IM 06/05/26 added additional ionic species, currently only from sea salt
+     pNa_ix, pMg_ix, pCa_ix, pK_ix, pSO4_ix, pRem_ix !DYTT-IM 06/05/26 added additional ionic species found in fine sea salt
 
 !----------------------------------------------------------------------------
 contains
@@ -1229,18 +1229,18 @@ subroutine define_chemicals_indices()
   NO_ix = find_index('NO' ,species(:)%name)
   OH_ix = find_index('OH' ,species(:)%name)
   OM_ix = find_index('OM25_p' ,species(:)%name)
-  !SSf_ix = find_index('SeaSalt_f' ,species(:)%name) !DYTT-SS 15/05/26
+  !SSf_ix = find_index('SeaSalt_f' ,species(:)%name) !DYTT-SS 15/05/26 removed fine sea salt, to be replaced by ionic components of sea salt.
   SSc_ix = find_index('SeaSalt_c' ,species(:)%name)
   Dustwbf_ix = find_index('Dust_wb_f' ,species(:)%name)
   DustSahf_ix = find_index('Dust_sah_f' ,species(:)%name)
   HCL_ix= find_index('HCl' ,species(:)%name) !DYTT 25/02/26 added this line
   pCL_ix= find_index('pCl' ,species(:)%name) !DYTT 25/02/26 added this line
-  pNa_ix= find_index('pNa' ,species(:)%name) !DYTT-IM 06/05/26 added additional ionic species
-  pMg_ix= find_index('pMg' ,species(:)%name) !DYTT-IM 06/05/26 added additional ionic species
-  pCa_ix= find_index('pCa' ,species(:)%name) !DYTT-IM 06/05/26 added additional ionic species
-  pK_ix= find_index('pK'  ,species(:)%name) !DYTT-IM 06/05/26 added additional ionic species
-  pSO4_ix= find_index('pSO4',species(:)%name) !DYTT-IM 06/05/26 added additional ionic species
-  pRem_ix= find_index('pRem' ,species(:)%name) !DYTT-IM 06/05/26 added additional ionic species
+  pNa_ix= find_index('pNa' ,species(:)%name) !DYTT-IM 06/05/26 added additional ionic species found in fine sea salt
+  pMg_ix= find_index('pMg' ,species(:)%name) !DYTT-IM 06/05/26 added additional ionic species found in fine sea salt
+  pCa_ix= find_index('pCa' ,species(:)%name) !DYTT-IM 06/05/26 added additional ionic species found in fine sea salt
+  pK_ix= find_index('pK'  ,species(:)%name) !DYTT-IM 06/05/26 added additional ionic species found in fine sea salt
+  pSO4_ix= find_index('pSO4',species(:)%name) !DYTT-IM 06/05/26 added additional ionic species found in fine sea salt
+  pRem_ix= find_index('pRem' ,species(:)%name) !DYTT-IM 06/05/26 added additional ionic species found in fine sea salt
 
   HONO_ix = find_index('HONO' ,species(:)%name)
   OP_ix = find_index('OP' ,species(:)%name)

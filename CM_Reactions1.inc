@@ -1380,18 +1380,18 @@
 
 
 
-!-> HCl !DYTT 25/02/26 added HCl emissions
+!-> HCl !DYTT 
 
-  P = rcemis(HCl,k) + rct(99,k) * xnew(HNO3) !DYTT 25/02/26 added this reaction
+  P = rcemis(HCl,k) + rct(99,k) * xnew(HNO3) !DYTT 25/02/26 added HCl emissions, and chemical production via HNO3 + coarse sea salt.
   
   ! L = 0.0
   
   xnew(HCl) = xold(HCl) + dt2 * P
 
 
-!-> pCl !DYTT 25/02/26 added pCl emissions (note that this will be zero, as current dataset does not have pCl emissions). !DYTT-IM 03/06/26 added in sea salt Cl component. rcemis units are NaCl units/cm3/s so need to convert to mass, calculate the percentage Cl contribution, then convert to Cl units/cm3/s
+!-> pCl !DYTT 25/02/26 added pCl emissions. !DYTT-IM 03/06/26 added production from Cl in sea salt. rcemis units are NaCl units/cm3/s so need to convert to mass, calculate the percentage Cl contribution, then convert to Cl units/cm3/s
 
-  P = rcemis(pCl,k) + rcemis(SEASALT_F,K) * 58.0 * 0.5504 /  35.45 ! rcemis * MW_ssf * % contribution by mass / MW_Cl
+  P = rcemis(pCl,k) + rcemis(SEASALT_F,K) * 58.0 * 0.5504 /  35.45 !DYTT rcemis * MW_ssf * % contribution by mass / MW_Cl 
   
   ! L = 0.0
   
@@ -1400,7 +1400,7 @@
 
 !-> pNa !DYTT-IM 03/06/26 added in sea salt Na component. rcemis units are NaCl units/cm3/s so need to convert to mass, calculate the percentage Na contribution, then convert to Na units/cm3/s
 
-  P = rcemis(SEASALT_F,K) * 58.0 * 0.3061 / 22.99 ! rcemis * MW_ssf * % contribution by mass / MW_Na
+  P = rcemis(SEASALT_F,K) * 58.0 * 0.3061 / 22.99 !DYTT rcemis * MW_ssf * % contribution by mass / MW_Na
   
   ! L = 0.0
   
@@ -1409,7 +1409,7 @@
 
 !-> pMg !DYTT-IM 03/06/26 added in sea salt Mg component. rcemis units are NaCl units/cm3/s so need to convert to mass, calculate the percentage Mg contribution, then convert to Mg units/cm3/s
 
-  P = rcemis(SEASALT_F,K) * 58.0 * 0.0369 / 24.31 ! rcemis * MW_ssf * % contribution by mass / MW_Mg
+  P = rcemis(SEASALT_F,K) * 58.0 * 0.0369 / 24.31 !DYTT rcemis * MW_ssf * % contribution by mass / MW_Mg
   
   ! L = 0.0
   
@@ -1418,7 +1418,7 @@
 
 !-> pCa !DYTT-IM 03/06/26 added in sea salt Ca component. rcemis units are NaCl units/cm3/s so need to convert to mass, calculate the percentage Ca contribution, then convert to Ca units/cm3/s
 
-  P = rcemis(SEASALT_F,K) * 58.0 * 0.0116 / 40.08 ! rcemis * MW_ssf * % contribution by mass / MW_Ca
+  P = rcemis(SEASALT_F,K) * 58.0 * 0.0116 / 40.08 !DYTT rcemis * MW_ssf * % contribution by mass / MW_Ca
   
   ! L = 0.0
   
@@ -1427,7 +1427,7 @@
 
 !-> pK !DYTT-IM 03/06/26 added in sea salt K (potassium) component. rcemis units are NaCl units/cm3/s so need to convert to mass, calculate the percentage K contribution, then convert to K units/cm3/s
 
-  P = rcemis(SEASALT_F,K) * 58.0 * 0.011 / 39.10 ! rcemis * MW_ssf * % contribution by mass / MW_K
+  P = rcemis(SEASALT_F,K) * 58.0 * 0.011 / 39.10 !DYTT rcemis * MW_ssf * % contribution by mass / MW_K
   
   ! L = 0.0
   
@@ -1436,7 +1436,7 @@
 
 !-> pSO4 !DYTT-IM 03/06/26 added in sea salt SO4 component. rcemis units are NaCl units/cm3/s so need to convert to mass, calculate the percentage SO4 contribution, then convert to SO4 units/cm3/s
 
-  P = rcemis(SEASALT_F,K) * 58.0 * 0.0768 / 96.06 ! rcemis * MW_ssf * % contribution by mass / MW_SO4
+  P = rcemis(SEASALT_F,K) * 58.0 * 0.0768 / 96.06 !DYTT rcemis * MW_ssf * % contribution by mass / MW_SO4
   
   ! L = 0.0
   
@@ -1445,7 +1445,7 @@
 
 !-> pRem !DYTT-IM 03/06/26 added in sea salt remaining component. rcemis units are NaCl units/cm3/s so need to convert to mass, calculate the percentage remaining contribution, then convert to remaining units/cm3/s, assuming pRem is mostly Bromide
 
-  P = rcemis(SEASALT_F,K) * 58.0 * 0.0072 / 79.904 ! rcemis * MW_ssf * % contribution by mass / MW_Br
+  P = rcemis(SEASALT_F,K) * 58.0 * 0.0072 / 79.904 !DYTT rcemis * MW_ssf * % contribution by mass / MW_Br
   
   ! L = 0.0
   

@@ -66,7 +66,7 @@ type(dep_t), public, dimension(NDRYDEP_ADV), save :: CM_DDepMap = (/ &
 , dep_t("ffire_BC  ", "PMf       ", -999.0 ) &
 , dep_t("ffire_remPPM25", "PMf       ", -999.0 ) &
 , dep_t("ffire_c   ", "PMc       ", -999.0 ) &
-!, dep_t("SeaSalt_f ", "SSf       ", -999.0 ) & !DYTT-SS 15/05/26
+!, dep_t("SeaSalt_f ", "SSf       ", -999.0 ) & !DYTT-SS 15/05/26 removing fine sea salt
 , dep_t("SeaSalt_c ", "SSc       ", -999.0 ) &
 , dep_t("Dust_road_f", "DUf       ", -999.0 ) &
 , dep_t("Dust_road_c", "DUc       ", -999.0 ) &
@@ -101,12 +101,12 @@ type(dep_t), public, dimension(NDRYDEP_ADV), save :: CM_DDepMap = (/ &
 , dep_t("POLLEN_MUGWORT3", "POLL18    ", -999.0 ) &
 , dep_t("POLLEN_MUGWORT4", "POLL18    ", -999.0 ) &
 , dep_t("POLLEN_MUGWORT5", "POLL18    ", -999.0 ) &
-, dep_t("HCl            ", "HCl       ", -999.0 ) & !DYTT 02/04/26 added this line. Dry dep like HCl. Previously like HNO3.
-, dep_t("pCl            ", "PMfCl    ", -999.0 ) & !DYTT-IM 07/05/26 changed this to ddep like PMfCl rather than PMf. Requires corresponding change around L397 in DryDep_mod.f90 to conserve mass. PMfCl should behave very similarly to PMfNO3, just with a different ratio.
-, dep_t("pNa            ", "PMf       ", -999.0 ) & !DYTT-IM 07/05/26 added this
-, dep_t("pMg            ", "PMf       ", -999.0 ) & !DYTT-IM 07/05/26 added this
-, dep_t("pCa            ", "PMf       ", -999.0 ) & !DYTT-IM 07/05/26 added this
-, dep_t("pK             ", "PMf       ", -999.0 ) & !DYTT-IM 07/05/26 added this
-, dep_t("pSO4           ", "PMf       ", -999.0 ) & !DYTT-IM 07/05/26 added this
-, dep_t("pRem           ", "PMf       ", -999.0 ) & !DYTT-IM 07/05/26 added this
+, dep_t("HCl            ", "HCl       ", -999.0 ) & !DYTT 02/04/26 added this line. Dry dep like HCl, i.e. similar to HNO3, but with diffusivity in air specific to HCl (see GasParticleCoeffs_mod.f90). 
+, dep_t("pCl            ", "PMfCl    ", -999.0 ) & !DYTT-IM 07/05/26 added this line, giving pCl ddep like PMfCl, i.e. the fraction associated with NH4Cl deposits like NH4NO3 (near-surface evaporation effect), the rest deposits like PMf - assuming this is Cl associated with sea salt and this is internally mixed. Requires corresponding change around L397 in DryDep_mod.f90. 
+, dep_t("pNa            ", "PMf       ", -999.0 ) & !DYTT-IM 07/05/26 added this. Assumes this is a component of sea salt and is internally mixed, therefore depositing at the same rate as all other fine PM. 
+, dep_t("pMg            ", "PMf       ", -999.0 ) & !DYTT-IM 07/05/26 added this. Assumes this is a component of sea salt and is internally mixed, therefore depositing at the same rate as all other fine PM. 
+, dep_t("pCa            ", "PMf       ", -999.0 ) & !DYTT-IM 07/05/26 added this. Assumes this is a component of sea salt and is internally mixed, therefore depositing at the same rate as all other fine PM. 
+, dep_t("pK             ", "PMf       ", -999.0 ) & !DYTT-IM 07/05/26 added this. Assumes this is a component of sea salt and is internally mixed, therefore depositing at the same rate as all other fine PM. 
+, dep_t("pSO4           ", "PMf       ", -999.0 ) & !DYTT-IM 07/05/26 added this. Assumes this is a component of sea salt and is internally mixed, therefore depositing at the same rate as all other fine PM. 
+, dep_t("pRem           ", "PMf       ", -999.0 ) & !DYTT-IM 07/05/26 added this. Assumes this is a component of sea salt and is internally mixed, therefore depositing at the same rate as all other fine PM. 
 /)

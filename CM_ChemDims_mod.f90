@@ -33,10 +33,10 @@ module ChemDims_mod
   
 
     ! NSPEC for TOT : All reacting species
-    integer, public, parameter :: NSPEC_TOT=144 !DYTT-IM 06/05/26 changed this. Previously NSPEC_TOT=136
+    integer, public, parameter :: NSPEC_TOT=136+1+7 !DYTT-IM 06/05/26 changed this. Previously NSPEC_TOT=136. +1 for HCl, +7 for pCl, pNa, pMg, pK, pCa, pSO4, pRem
     
     ! NSPEC for ADV : Advected species
-    integer, public, parameter :: NSPEC_ADV=129 !DYTT-IM 06/05/26 changed this. Previously NSPEC_ADV=121
+    integer, public, parameter :: NSPEC_ADV=121+1+7 !DYTT-IM 06/05/26 changed this. Previously NSPEC_ADV=121. +1 for HCl, +7 for pCl, pNa, pMg, pK, pCa, pSO4, pRem
     
     ! NSPEC for SHL : Short-lived (non-advected) species
     integer, public, parameter :: NSPEC_SHL=15
@@ -45,10 +45,10 @@ module ChemDims_mod
     integer, public, parameter :: NSPEC_SEMIVOL=20
         
     ! No. DRY deposition species
-    integer, public, parameter :: NDRYDEP_ADV = 108 !DYTT-IM 06/05/26 changed this. Previously NDRYDEP_ADV = 101. 8 new species (HCl, pCl, pNa, pMg, pCa, pK, pSO4, pRem), minus seasalt_f which I am removing !DYTT-SS 15/05/26
+    integer, public, parameter :: NDRYDEP_ADV = 101+7 !DYTT-IM 06/05/26 changed this. Previously NDRYDEP_ADV = 101. 8 new species (HCl, pCl, pNa, pMg, pCa, pK, pSO4, pRem), minus seasalt_f which I am removing !DYTT-SS 15/05/26
     
     ! No. WET deposition species
-    integer, public, parameter :: NWETDEP_ADV = 95 !DYTT-IM 06/05/26 changed this. Previously NWETDEP_ADV = 88 8 new species (HCl, pCl, pNa, pMg, pCa, pK, pSO4, pRem), minus seasalt_f which I am removing !DYTT-SS 15/05/26
+    integer, public, parameter :: NWETDEP_ADV = 88+7 !DYTT-IM 06/05/26 changed this. Previously NWETDEP_ADV = 88. 8 new species (HCl, pCl, pNa, pMg, pCa, pK, pSO4, pRem), minus seasalt_f which I am removing !DYTT-SS 15/05/26
     
     ! No. rate coefficients
     integer, parameter, public :: NCHEMRATES = 101
@@ -57,9 +57,9 @@ module ChemDims_mod
     integer, parameter, public :: NPHOTOLRATES = 19
     
     ! No. emission Files
-    integer, parameter, public :: NEMIS_File = 9 !DYTT 25/02/26 changed this. Previously NEMIS_File = 7. Note that this many files is not necessary - current inputs are all in one .nc file. 
+    integer, parameter, public :: NEMIS_File = 7+2 !DYTT 25/02/26 changed this. Previously NEMIS_File = 7. added on 2 for potential HCl and pCl emissions. Note that this many files is not necessary - current inputs are all in one .nc file. 
     
     ! No. emission Specss
-    integer, parameter, public :: NEMIS_Specs = 62 !DYTT 25/02/26 changed this. Previously NEMIS_Specs = 60
+    integer, parameter, public :: NEMIS_Specs = 60+2 !DYTT 25/02/26 changed this. Previously NEMIS_Specs = 60. added on 2 for potential HCl and pCl emissions.
 
 end module ChemDims_mod

@@ -276,8 +276,8 @@ contains
     integer, dimension(NLUMAX)  :: iL_used, iL_fluxes
     real :: fsnow            ! snow fraction for one landuse
     real :: Vds              ! Aerosol near-surface deposition rate (m/s)
-    real :: nonso4nh4ratio      ! Crude (1 - SO4/NO3) for Vds ammonium associated with NO3 and pCl !DYTT-IM renamed this variable: previously named no3nh4ratio before pCl was included
-    real :: clnh4ratio          !DYTT-IM 12/05/26 Crude (NH4 - NO3_F - 2*SO4) / pCl i.e. the fraction of pCl that is associated with NH4. This is for calculation Vds of Cl associated with NH4Cl, assuming this Cl behaves like NO3 and that all other Cl behaves like PMf. 
+    real :: nonso4nh4ratio      ! Crude (1 - SO4/NO3) for Vds ammonium associated with NO3 and pCl !DYTT-IM renamed this variable for clarity: previously named no3nh4ratio before pCl was included
+    real :: clnh4ratio          !DYTT-IM 12/05/26 Crude (NH4 - NO3_F - 2*SO4) / pCl i.e. the fraction of pCl that is associated with NH4Cl. This is for calculation Vds of Cl associated with NH4Cl, assuming this Cl behaves like NO3 and that all other Cl behaves like PMf. 
 
     real :: c_hveg, Ra_diff, surf_ppb  ! for O3 fluxes and Fst where needed
     real :: c_hveg3m, o3_45m  ! TESTS ONLY
@@ -401,11 +401,11 @@ contains
     clnh4ratio = 0.0
     if(NH4_f_ix > 0) then
        if( xn_2d(NH4_f_ix,K2) > 1.0 ) then
-          nonso4nh4ratio = 1.0 - 0.5*xn_2d(SO4_ix,K2) / xn_2d(NH4_f_ix,K2) !DYTT-IM 05/05/26 doesn't account for possibility of HSO4-. Remember that SO4 is associated with 2 nh4 ions
+          nonso4nh4ratio = 1.0 - 0.5*xn_2d(SO4_ix,K2) / xn_2d(NH4_f_ix,K2) !DYTT-IM 05/05/26. This is the fraction of NH4 that is associated with NH4Cl and NH4NO3. i.e. the fraction of NH4 which is not (NH4)2SO4. Note this doesn't account for possibility of HSO4-.
           nonso4nh4ratio = min( 1.0,  nonso4nh4ratio ) !DYTT-IM make sure nonso4nh4ratio is not > 1
-          nonso4nh4ratio = max( 0.0,  nonso4nh4ratio ) !DYTT-IM make sure nonso4nh4ratio is not < 1
-          clnh4ratio = (xn_2d(NH4_f_ix,K2) - xn_2d(NO3_f_ix,K2) - 2.0*xn_2d(SO4_ix,K2)) / xn_2d(pCl_ix,K2) !DYTT-IM 05/05/26 fraction of pCl that is associated with NH4
-          clnh4ratio = max(0.0, clnh4ratio) !DYTT-IM make sure nonso4nh4ratio is not < 1
+          nonso4nh4ratio = max( 0.0,  nonso4nh4ratio ) !DYTT-IM make sure nonso4nh4ratio is not < 0
+          clnh4ratio = (xn_2d(NH4_f_ix,K2) - xn_2d(NO3_f_ix,K2) - 2.0*xn_2d(SO4_ix,K2)) / xn_2d(pCl_ix,K2) !DYTT-IM 05/05/26 fraction of pCl that is associated with NH4Cl. 
+          clnh4ratio = max(0.0, clnh4ratio) !DYTT-IM make sure nonso4nh4ratio is not < 0
           clnh4ratio = min(1.0, clnh4ratio) !DYTT-IM make sure nonso4nh4ratio is not > 1
         end if
     end if
@@ -695,10 +695,10 @@ contains
            if (icmp==idcmpPMfNO3 .and. L%invL<0.0 ) then 
              Vds = Vds * 3.0 ! for nitrate-like
            else if (icmp==idcmpPMfCl .and. L%invL<0.0) then  !DYTT-IM 05/05/26 added this else if statement
-             Vds = Vds * (1 + 2 * clnh4ratio) !DYTT-IM for NH4Cl. Assume Cl in NH4Cl behaves like nitrate
+             Vds = Vds * (1 + 2 * clnh4ratio) !DYTT-IM for NH4Cl. Assume Cl in NH4Cl behaves like NO3 in NH4NO3, i.e. undergoes near-surface evaporation effect.
            else if (icmp==idcmpPMfNH4 .and. L%invL<0.0 ) then 
-             !Vds = Vds* [ ( 1 - no3ratio) +  3 * no3nh4ratio ]
-             Vds = Vds * (1 + 2 * nonso4nh4ratio) !DYTT-IM renamed no3nh4ratio to nonso4nh4ratio but the rest remains the same
+             !Vds = Vds* [ ( 1 - no3ratio) +  3 * no3nh4ratio ] 
+             Vds = Vds * (1 + 2 * nonso4nh4ratio) !DYTT-IM renamed no3nh4ratio to nonso4nh4ratio but the rest remains the same. All NH4 associated with NH4Cl and NH4NO3 behaves like NH4NO3 i.e. undergoes near-surface evaporation effect.
            end if
 
          ! Use non-electrical-analogy version of Venkatram+Pleim (AE,1999)

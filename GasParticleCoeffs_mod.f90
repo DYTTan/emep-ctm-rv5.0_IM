@@ -242,9 +242,9 @@ type(DD_t), public, dimension(NDRYDEP_DEF), parameter :: DDdefs = [ &
 !               Dx (m2/s)  DH2O   H*   pe    K   f0  Rm  umDpgV sig  rhop  Gb(1-rural, 2-seasalt) 
  ,DD_t( 'PMf'   ,UNDEF_R  , -1,   -1,   -1,  -1,  -1, 0., 0.33, 1.8, 1600,  1)& ! as SAI_F 
  ,DD_t( 'PMfNO3',UNDEF_R  , -1,   -1,   -1,  -1,  -1, 0., 0.33, 1.8, 1600,  1)&! as SIA_F
- ,DD_t( 'PMfCl' ,UNDEF_R  , -1,   -1,   -1,  -1,  -1, 0., 0.33, 1.8, 1600,  1)&! as SIA_F !DYTT-IM 14/05/26 added this line
+ ,DD_t( 'PMfCl' ,UNDEF_R  , -1,   -1,   -1,  -1,  -1, 0., 0.33, 1.8, 1600,  1)&! as SIA_F !DYTT-IM 14/05/26 added this line, same as PMfNO3
  ,DD_t( 'PMfNH4',UNDEF_R  , -1,   -1,   -1,  -1,  -1, 0., 0.33, 1.8, 1600,  1)&! as SIA_F
- !,DD_t( 'SSf'   ,UNDEF_R  , -1,   -1,   -1,  -1,  -1, 0., 0.33, 1.8, 2200,  2)& ! as SSF !DYTT-SS 16/05/26
+ !,DD_t( 'SSf'   ,UNDEF_R  , -1,   -1,   -1,  -1,  -1, 0., 0.33, 1.8, 2200,  2)& ! as SSF !DYTT-SS 16/05/26 removed SSf
  ,DD_t( 'DUf'   ,UNDEF_R  , -1,   -1,   -1,  -1,  -1, 0., 0.33, 1.8, 2600, -1)& ! NEW?? CHECK
 ! QUERY
  ,DD_t( 'PMc  ',UNDEF_R  , -1,   -1,   -1,  -1,  -1, 0., 3.00,  2.0, 2200,  1)& ! as PM QUERY 20
@@ -276,7 +276,7 @@ type, private :: WD_t
   real :: W_sub
 end type WD_t
 
-integer, parameter :: NWETDEP_DEF = 22+2-1 !DYTT-SS taking away 1 because commenting out SSf
+integer, parameter :: NWETDEP_DEF = 22+2-1 !DYTT-SS taking -1 because commenting out SSf
 type(WD_t), public, dimension(NWETDEP_DEF),parameter :: WDdefs = [ &
   WD_t('SO2'  , 0.3,  0.15)  &! Berge+Jakobsen
  ,WD_t('SO4'  , 1.0,  EFF25) &! Berge+Jakobsen
@@ -285,7 +285,7 @@ type(WD_t), public, dimension(NWETDEP_DEF),parameter :: WDdefs = [ &
  ,WD_t('H2O2' , 1.4,  0.5)   &!
  ,WD_t('HCHO' , 0.1,  0.03)  &!
  ,WD_t('ECfn' , 0.05, EFF25) &
- !,WD_t('SSf'  , 1.6,  EFF25) & !DYTT-SS 16/05/26
+ !,WD_t('SSf'  , 1.6,  EFF25) & !DYTT-SS 16/05/26 removing SSf
  ,WD_t('SSc'  , 1.6,  EFFCO) &
  ,WD_t('SSg'  , 1.6,  EFFGI) &
  ,WD_t('PMf'  , 1.0,  EFF25) &!!

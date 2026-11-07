@@ -646,20 +646,20 @@ module ChemGroups_mod
   integer, public, target, save, dimension (1) :: &
     DDEP_DRX_4P5_GROUP = (/ TERPOOH /)
   
-  integer, public, target, save, dimension (2) :: &
-    SOX_GROUP = (/ SO2, SO4 /)
+  integer, public, target, save, dimension (2+1) :: & !DYTT 07/11/26 Previously 2. +1 for pSO4
+    SOX_GROUP = (/ SO2, SO4, pSO4 /) !DYTT 07/11/26 added pSO4
   
-  integer, public, target, save, dimension (2) :: &
-    WDEP_SOX_GROUP = (/ SO2, SO4 /)
+  integer, public, target, save, dimension (2+1) :: & !DYTT 07/11/26 Previously 2. +1 for pSO4
+    WDEP_SOX_GROUP = (/ SO2, SO4, pSO4 /) !DYTT 07/11/26 added pSO4
   
-  integer, public, target, save, dimension (2) :: &
-    DDEP_SOX_GROUP = (/ SO2, SO4 /)
+  integer, public, target, save, dimension (2+1) :: & !DYTT 07/11/26 Previously 2. +1 for pSO4
+    DDEP_SOX_GROUP = (/ SO2, SO4, pSO4 /) !DYTT 07/11/26 added pSO4
   
-  integer, public, target, save, dimension (36) :: & !DYTT-SS previously 30
+  integer, public, target, save, dimension (30+6) :: & !DYTT-SS previously 30. -1 for seasalt_f removal. +7 for pCl, pNa, pMg, pK, pCa, pSO4, pRem
     PM10_GROUP = (/  &
       SO4, NO3_f, NO3_c, NH4_f, OM25_p, ffire_BC, ffire_remPPM25,  &
-      !ffire_c, SeaSalt_f, SeaSalt_c, Dust_road_f, Dust_road_c,  &
-      ffire_c, pCl, pNa, pMg, pCa, pK, pSO4, pRem, SeaSalt_c, Dust_road_f, Dust_road_c,  & !DYTT-SS added in individual sea salt components instead of total fine sea salt
+      !ffire_c, SeaSalt_f, SeaSalt_c, Dust_road_f, Dust_road_c,  & !DYTT-SS commented out this line, replaced by line below.
+      ffire_c, pCl, pNa, pMg, pCa, pK, pSO4, pRem, SeaSalt_c, Dust_road_f, Dust_road_c,  & !DYTT-SS replaced seasalt_f with pCl, pNa, pMg, pK, pCa, pSO4, pRem
       Dust_wb_f, Dust_wb_c, Dust_sah_f, Dust_sah_c, Ash_f, Ash_c,  &
       POM_c_Res, POM_c_nonRes, EC_f_Res_new, EC_f_Res_age,  &
       EC_c_Res, EC_f_nonRes_new, EC_f_nonRes_age, EC_c_nonRes,  &
@@ -667,11 +667,11 @@ module ChemGroups_mod
       remPPM_c_Res  &
     /)
   
-  integer, public, target, save, dimension (35) :: & !DYTT-SS previously 29
+  integer, public, target, save, dimension (29+6) :: & !DYTT-SS previously 29. -1 for seasalt_f removal. +7 for pCl, pNa, pMg, pK, pCa, pSO4, pRem
     WDEP_PM10_GROUP = (/  &
       SO4, NO3_f, NO3_c, NH4_f, ffire_BC, ffire_remPPM25, ffire_c,  &
-      !SeaSalt_f, SeaSalt_c, Dust_road_f, Dust_road_c, Dust_wb_f,  &
-      pCl, pNa, pMg, pCa, pK, pSO4, pRem, SeaSalt_c, Dust_road_f, Dust_road_c, Dust_wb_f,  & !DYTT-SS added in individual sea salt components instead of total fine sea salt
+      !SeaSalt_f, SeaSalt_c, Dust_road_f, Dust_road_c, Dust_wb_f,  & !DYTT commented out this line, replaced by line below
+      pCl, pNa, pMg, pCa, pK, pSO4, pRem, SeaSalt_c, Dust_road_f, Dust_road_c, Dust_wb_f,  & !DYTT-SS replaced seasalt_f with pCl, pNa, pMg, pK, pCa, pSO4, pRem
       Dust_wb_c, Dust_sah_f, Dust_sah_c, Ash_f, Ash_c, POM_c_Res,  &
       POM_c_nonRes, EC_f_Res_new, EC_f_Res_age, EC_c_Res,  &
       EC_f_nonRes_new, EC_f_nonRes_age, EC_c_nonRes,  &
@@ -679,11 +679,11 @@ module ChemGroups_mod
       remPPM_c_Res  &
     /)
   
-  integer, public, target, save, dimension (35) :: & !DYTT-SS previously 29
+  integer, public, target, save, dimension (29+6) :: & !DYTT-SS previously 29. -1 for seasalt_f removal. +7 for pCl, pNa, pMg, pK, pCa, pSO4, pRem
     DDEP_PM10_GROUP = (/  &
       SO4, NO3_f, NO3_c, NH4_f, ffire_BC, ffire_remPPM25, ffire_c,  &
-      !SeaSalt_f, SeaSalt_c, Dust_road_f, Dust_road_c, Dust_wb_f,  &
-      pCl, pNa, pMg, pCa, pK, pSO4, pRem, SeaSalt_c, Dust_road_f, Dust_road_c, Dust_wb_f,  & !DYTT-SS added in individual sea salt components instead of total fine sea salt
+      !SeaSalt_f, SeaSalt_c, Dust_road_f, Dust_road_c, Dust_wb_f,  & !DYTT commented out this line, replaced by line below
+      pCl, pNa, pMg, pCa, pK, pSO4, pRem, SeaSalt_c, Dust_road_f, Dust_road_c, Dust_wb_f,  & !DYTT-SS replaced seasalt_f with pCl, pNa, pMg, pK, pCa, pSO4, pRem
       Dust_wb_c, Dust_sah_f, Dust_sah_c, Ash_f, Ash_c, POM_c_Res,  &
       POM_c_nonRes, EC_f_Res_new, EC_f_Res_age, EC_c_Res,  &
       EC_f_nonRes_new, EC_f_nonRes_age, EC_c_nonRes,  &
@@ -691,28 +691,28 @@ module ChemGroups_mod
       remPPM_c_Res  &
     /)
   
-  integer, public, target, save, dimension (23) :: & !DYTT-SS previously 17
+  integer, public, target, save, dimension (17+6) :: & !DYTT-SS previously 17. -1 for seasalt_f removal. +7 for pCl, pNa, pMg, pK, pCa, pSO4, pRem
     PMFINE_GROUP = (/  &
       SO4, NO3_f, NH4_f, OM25_p, ffire_BC, ffire_remPPM25,  &
-      !SeaSalt_f, Dust_road_f, Dust_wb_f, Dust_sah_f, Ash_f,  &
-      pCl, pNa, pMg, pCa, pK, pSO4, pRem, Dust_road_f, Dust_wb_f, Dust_sah_f, Ash_f,  & !DYTT-SS added in individual sea salt components instead of total fine sea salt
+      !SeaSalt_f, Dust_road_f, Dust_wb_f, Dust_sah_f, Ash_f,  & !DYTT commented out this line, replaced by line below
+      pCl, pNa, pMg, pCa, pK, pSO4, pRem, Dust_road_f, Dust_wb_f, Dust_sah_f, Ash_f,  & !DYTT-SS replaced seasalt_f with pCl, pNa, pMg, pK, pCa, pSO4, pRem
       EC_f_Res_new, EC_f_Res_age, EC_f_nonRes_new,  &
       EC_f_nonRes_age, remPPM25_nonRes, remPPM25_Res  &
     /)
   
-  integer, public, target, save, dimension (22) :: & !DYTT-SS previously 16
+  integer, public, target, save, dimension (16+6+1) :: & !DYTT-SS previously 16. -1 for seasalt_f removal. +7 for pCl, pNa, pMg, pK, pCa, pSO4, pRem. !DYTT 07/11/26 bugfix: +1 for missing OM25_p
     WDEP_PMFINE_GROUP = (/  &
-      !SO4, NO3_f, NH4_f, ffire_BC, ffire_remPPM25, SeaSalt_f,  &
-      SO4, NO3_f, NH4_f, ffire_BC, ffire_remPPM25, pCl, pNa, pMg, pCa, pK, pSO4, pRem,  & !DYTT-SS added in individual sea salt components instead of total fine sea salt
+      !SO4, NO3_f, NH4_f, ffire_BC, ffire_remPPM25, SeaSalt_f,  & !DYTT commented out this line, replaced by line below
+      SO4, NO3_f, NH4_f, OM25_p, ffire_BC, ffire_remPPM25, pCl, pNa, pMg, pCa, pK, pSO4, pRem,  & !DYTT-SS replaced seasalt_f with pCl, pNa, pMg, pK, pCa, pSO4, pRem. !DYTT 07/11/26 bugfix: added in OM25_p
       Dust_road_f, Dust_wb_f, Dust_sah_f, Ash_f, EC_f_Res_new,  &
       EC_f_Res_age, EC_f_nonRes_new, EC_f_nonRes_age,  &
       remPPM25_nonRes, remPPM25_Res  &
     /)
   
-  integer, public, target, save, dimension (22) :: & !DYTT-SS previously 16
+  integer, public, target, save, dimension (16+6+1) :: & !DYTT-SS previously 16. !DYTT-SS previously 16. -1 for seasalt_f removal. +7 for pCl, pNa, pMg, pK, pCa, pSO4, pRem. !DYTT 07/11/26 bugfix: +1 for missing OM25_p
     DDEP_PMFINE_GROUP = (/  &
-      !SO4, NO3_f, NH4_f, ffire_BC, ffire_remPPM25, SeaSalt_f,  &
-      SO4, NO3_f, NH4_f, ffire_BC, ffire_remPPM25, pCl, pNa, pMg, pCa, pK, pSO4, pRem, & !DYTT-SS added in individual sea salt components instead of total fine sea salt
+      !SO4, NO3_f, NH4_f, ffire_BC, ffire_remPPM25, SeaSalt_f,  & !DYTT commented out this line, replaced by line below
+      SO4, NO3_f, NH4_f,  OM25_p, ffire_BC, ffire_remPPM25, pCl, pNa, pMg, pCa, pK, pSO4, pRem, & !DYTT-SS replaced seasalt_f with pCl, pNa, pMg, pK, pCa, pSO4, pRem. !DYTT 07/11/26 bugfix: added in OM25_p
       Dust_road_f, Dust_wb_f, Dust_sah_f, Ash_f, EC_f_Res_new,  &
       EC_f_Res_age, EC_f_nonRes_new, EC_f_nonRes_age,  &
       remPPM25_nonRes, remPPM25_Res  &
@@ -995,17 +995,17 @@ module ChemGroups_mod
       EC_f_nonRes_age  &
     /)
   
-  integer, public, target, save, dimension (8) :: & !DYTT-SS previously 2
-    !SS_GROUP = (/ SeaSalt_f, SeaSalt_c /)
-    SS_GROUP = (/ pCl, pNa, pMg, pCa, pK, pSO4, pRem, SeaSalt_c /) !DYTT-SS 15/05/26
+  integer, public, target, save, dimension (2+6) :: & !DYTT-SS previously 2. -1 for seasalt_f removal. +7 for pCl, pNa, pMg, pK, pCa, pSO4, pRem.
+    !SS_GROUP = (/ SeaSalt_f, SeaSalt_c /) !DYTT removed this line, replaced by line below
+    SS_GROUP = (/ pCl, pNa, pMg, pCa, pK, pSO4, pRem, SeaSalt_c /) !DYTT-SS 15/05/26 replaced seasalt_f with pCl, pNa, pMg, pK, pCa, pSO4, pRem.
   
-  integer, public, target, save, dimension (8) :: & !DYTT-SS previously 2
-    !WDEP_SS_GROUP = (/ SeaSalt_f, SeaSalt_c /)
-    WDEP_SS_GROUP = (/ pCl, pNa, pMg, pCa, pK, pSO4, pRem, SeaSalt_c /) !DYTT-SS 15/05/26
+  integer, public, target, save, dimension (2+6) :: & !DYTT-SS previously 2. -1 for seasalt_f removal. +7 for pCl, pNa, pMg, pK, pCa, pSO4, pRem.
+    !WDEP_SS_GROUP = (/ SeaSalt_f, SeaSalt_c /) !DYTT removed this line, replaced by line below
+    WDEP_SS_GROUP = (/ pCl, pNa, pMg, pCa, pK, pSO4, pRem, SeaSalt_c /) !DYTT-SS 15/05/26 replaced seasalt_f with pCl, pNa, pMg, pK, pCa, pSO4, pRem.
   
-  integer, public, target, save, dimension (8) :: & !DYTT-SS previously 2
-  !DDEP_SS_GROUP = (/ SeaSalt_f, SeaSalt_c /)
-  DDEP_SS_GROUP = (/ pCl, pNa, pMg, pCa, pK, pSO4, pRem, SeaSalt_c /) !DYTT-SS 15/05/26
+  integer, public, target, save, dimension (2+6) :: & !DYTT-SS previously 2. -1 for seasalt_f removal. +7 for pCl, pNa, pMg, pK, pCa, pSO4, pRem.
+  !DDEP_SS_GROUP = (/ SeaSalt_f, SeaSalt_c /) !DYTT removed this line, replaced by line below.
+  DDEP_SS_GROUP = (/ pCl, pNa, pMg, pCa, pK, pSO4, pRem, SeaSalt_c /) !DYTT-SS 15/05/26 replaced seasalt_f with pCl, pNa, pMg, pK, pCa, pSO4, pRem.
   
   integer, public, target, save, dimension (6) :: &
     DUST_GROUP = (/  &
@@ -1303,18 +1303,18 @@ module ChemGroups_mod
       30.0, 30.0, 30.0, 30.0, 30.0, 30.0, 30.0, 30.0, 30.0, 30.0  &
     /)
   
-  integer, public, target, save, dimension (32) :: & !DYTT-SS previously 26
+  integer, public, target, save, dimension (26+6) :: & !DYTT-SS previously 26. -1 for seasalt_f removal. +7 for pCl, pNa, pMg, pK, pCa, pSO4, pRem.
     EXTINC_GROUP = (/  &
       SO4, NO3_f, NO3_c, NH4_f, OM25_p, ffire_BC, ffire_remPPM25,  &
-      !ffire_c, SeaSalt_f, SeaSalt_c, Dust_road_f, Dust_road_c,  & 
-      ffire_c, pCl, pNa, pMg, pCa, pK, pSO4, pRem, SeaSalt_c, Dust_road_f, Dust_road_c,  & !DYTT-SS 15/05/26
+      !ffire_c, SeaSalt_f, SeaSalt_c, Dust_road_f, Dust_road_c,  & ! Removed this line, replaced with line below
+      ffire_c, pCl, pNa, pMg, pCa, pK, pSO4, pRem, SeaSalt_c, Dust_road_f, Dust_road_c,  & !DYTT-SS 15/05/26 replaced seasalt_f with pCl, pNa, pMg, pK, pCa, pSO4, pRem.
       Dust_wb_f, Dust_wb_c, Dust_sah_f, Dust_sah_c, EC_f_Res_new,  &
       EC_f_Res_age, EC_c_Res, EC_f_nonRes_new, EC_f_nonRes_age,  &
       EC_c_nonRes, remPPM25_nonRes, remPPM25_Res,  &
       remPPM_c_nonRes, remPPM_c_Res  &
     /)
   
-  character(len=TXTLEN_SHORT), public, target, save, dimension (32) :: & !DYTT-SS previously 26
+  character(len=TXTLEN_SHORT), public, target, save, dimension (26+6) :: & !DYTT-SS previously 26. -1 for seasalt_f removal. +7 for pCl, pNa, pMg, pK, pCa, pSO4, pRem.
     EXTINC_GROUP_MAPBACK = [ character(len=TXTLEN_SHORT) :: &
     "SO4", "NO3f", "NO3c", "NH4f", "OC", "EC", "DDf", "DDc",  &
       "SSf", "SSf", "SSf", "SSf", "SSf", "SSf", "SSf", "SSc", "DDf", "DDc", "DDf", "DDc", "DDf", "DDc",  & !DYTT-SS 15/05/26 set all sea salt components to AOD mapping like SSf. No idea if this is correct. 
