@@ -44,9 +44,9 @@ module AerosolCalls
                                    cfac, pH
  use Config_module,         only: KMAX_MID, KCHEMTOP, MasterProc, USES,&
                                   SO4_ix, HNO3_ix, NO3_f_ix, NH3_ix, NH4_f_ix, OM_ix, &
-                                  !SSf_ix, SSc_ix, Dustwbf_ix, DustSahf_ix, HCl_ix, pCl_ix, & !DYTT 25/02/26 added HCl_ix and pCl_ix
-                                  SSc_ix, Dustwbf_ix, DustSahf_ix, HCl_ix, pCl_ix, & !DYTT-SS 16/05/26 deleting SSf_ix
-                                  pNa_ix, pCa_ix, pK_ix, pMg_ix, pSO4_ix, pRem_ix !DYTT-IM 06/05/26 added additional ionic components - just from sea salt for now.
+                                  !SSf_ix, SSc_ix, Dustwbf_ix, DustSahf_ix, & !DYTT 25/02/26 commented out this line, replaced by line below
+                                  SSc_ix, Dustwbf_ix, DustSahf_ix, HCl_ix, pCl_ix, & !DYTT 25/02/26 added HCl_ix and pCl_ix !DYTT-SS 16/05/26 deleted SSf_ix
+                                  pNa_ix, pCa_ix, pK_ix, pMg_ix, pSO4_ix, pRem_ix !DYTT-IM 06/05/26 added ionic components of fine sea salt to replace SSf_ix
  use Debug_module,          only: DEBUG   ! -> DEBUG%EQUIB
  use EQSAM4clim_ml,        only :  EQSAM4clim
 ! use EQSAM_v03d_mod,        only: eqsam_v03d
@@ -74,7 +74,7 @@ module AerosolCalls
 !           !   FINE_PM = 1, COAR_NO3 = 2, COAR_SS = 3, COAR DUST = 4,pollen = 5    
 
 
-  !integer, private, save :: iSeaSalt,cSeaSalt,cNatDust  ! zero if no seasalt compounds
+  !integer, private, save :: iSeaSalt,cSeaSalt,cNatDust  ! zero if no seasalt compounds !DYTT-SS 15/05/26 commented out this line, replaced by line below
   integer, private, save :: cSeaSalt,cNatDust  ! zero if no seasalt compounds !DYTT-SS 15/05/26 removed iSeaSalt
   real, parameter :: MWCL = 35.453, MWNA = 22.9897,  & ! MW Chloride, Sodium
                      MWCA = 40.078, MWMG = 24.305, MWK = 39.098, & ! MW Calcium, Magnegium, Potassium
@@ -90,12 +90,12 @@ contains
     character(len=*),parameter:: dtxt='AeroEqui:'
     
     if( my_first_call ) then
-      !iSeaSalt = find_index('SeaSalt_f',species(:)%name ) !DYTT-SS 15/05/26 removed iSeaSalt
-      !call CheckStop(USES%SEASALT.and.iSeaSalt<1,dtxt//"iSeaSalt neg") !DYTT-SS 15/05/26 removed iSeaSalt
+      !iSeaSalt = find_index('SeaSalt_f',species(:)%name ) !DYTT-SS 15/05/26 commented out this line about iSeaSalt
+      !call CheckStop(USES%SEASALT.and.iSeaSalt<1,dtxt//"iSeaSalt neg") !DYTT-SS 15/05/26 commented out this line about iSeaSalt
       if(  MasterProc ) then
         write(*,*) 'AerosolEquilib: chosen: ',AERO%EQUILIB 
         write(*,*) 'AerosolEquilib water: chosen: ',AERO%EQUILIB_WATER
-        !write(*,*) 'AerosolEquilib seasalt index: ',iSeaSalt !DYTT-SS 15/05/26 removed iSeaSalt
+        !write(*,*) 'AerosolEquilib seasalt index: ',iSeaSalt !DYTT-SS 15/05/26 commented out this line about iSeaSalt
       end if
     end if
     select case ( AERO%EQUILIB )
@@ -120,7 +120,6 @@ contains
  !>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
  ! Adapted from List 10, p130, Isoropia manual
- !DYTT-IM note: ISORROPIA not yet adapted to allow internal mixing due to complications with dust. 
   subroutine emep2isorropia(i,j,debug_flag)
     integer, intent(in) :: i, j
     logical, intent(in) :: debug_flag
@@ -222,25 +221,25 @@ contains
         ! isorropia only for when T > 250 K and P > 200 hPa (CMAQ and GEOS-Chem; Shannon Capps discussion)
         if (pp(k) > 20000.0 .and. temp(k) > 250.0) then 
   
-          !if ( AERO%INTERNALMIXED .and. SSf_ix > 0 ) then !DYTT-IM 11/06/26 assume internal mixing, add pCl and pNa components explicitely, get rid of else statement
+          !if ( AERO%INTERNALMIXED .and. SSf_ix > 0 ) then !DYTT-IM 11/06/26 By definition, this code works on the assumption of internally mixed fine sea salt, i.e. AERO%INTERNALMIXED = T. So only the 'if' statement is appropriate, the rest is commented out.
             ! if internally mixed is assumed, Na and Cl as mass-fraction of seasalt aerosol.
-          WI(1) = MAX(( xn_2d(pNa_ix,k)) * Ncm3_to_molesm3, CONMIN ) !DYTT-IM 12/06/26. Presumably this does not depend on the CATIONS flag because otherwise we would get a charge imbalance? !max(0., xn_2d(SSf_ix ,k) * Ncm3_to_molesm3 * species(SSf_ix)%molwt * 0.30 / MWNA )
-          WI(5) = MAX(( xn_2d(pCl_ix,k) + xn_2d(HCl_ix, k) ) * Ncm3_to_molesm3, CONMIN ) !DYTT-IM 12/06/26 !max(0., xn_2d(SSf_ix ,k) * Ncm3_to_molesm3 * species(SSf_ix)%molwt * 0.55 / MWCL )
+          WI(1) = MAX(( xn_2d(pNa_ix,k)) * Ncm3_to_molesm3, CONMIN ) !DYTT-IM 12/06/26. Added pNa as ISORROPIA input. Previously, Na input derived from SSf variable, which has been removed. Previously: !max(0., xn_2d(SSf_ix ,k) * Ncm3_to_molesm3 * species(SSf_ix)%molwt * 0.30 / MWNA )
+          WI(5) = MAX(( xn_2d(pCl_ix,k) + xn_2d(HCl_ix, k) ) * Ncm3_to_molesm3, CONMIN ) !DYTT-IM 12/06/26 Added pCl and HCl explicitly as ISORROPIA input. Previously: !max(0., xn_2d(SSf_ix ,k) * Ncm3_to_molesm3 * species(SSf_ix)%molwt * 0.55 / MWCL )
           !else
           !WI(1)  = 0.0
-          !WI(5)  = 0.0 + MAX(( xn_2d(pCl_ix,k) + xn_2d(HCl_ix, k) ) * Ncm3_to_molesm3, CONMIN ) !DYTT 24/04/26 adding pCl and HCl in mol/m3 
+          !WI(5)  = 0.0 
           !endif
   
-          WI(2)  = MAX(( xn_2d(SO4_ix  ,k) + xn_2d(pSO4_ix,k)  ) * Ncm3_to_molesm3, CONMIN ) !DYTT-IM 12/06/26 add in seasalt SO4 (pSO4_ix). !MAX( xn_2d(SO4_ix  ,k) * Ncm3_to_molesm3, CONMIN )
+          WI(2)  = MAX(( xn_2d(SO4_ix  ,k) + xn_2d(pSO4_ix,k)  ) * Ncm3_to_molesm3, CONMIN ) !DYTT-IM 12/06/26 add in fine seasalt pSO4 (pSO4_ix). Previously: !MAX( xn_2d(SO4_ix  ,k) * Ncm3_to_molesm3, CONMIN )
           WI(3)  = MAX(( xn_2d(NH3_ix  ,k) + xn_2d(NH4_f_ix,k) ) * Ncm3_to_molesm3, CONMIN ) ! NH3, NH4
           WI(4)  = MAX(( xn_2d(NO3_f_ix,k) + xn_2d(HNO3_ix, k) ) * Ncm3_to_molesm3, CONMIN )
   
           !if ( AERO%INTERNALMIXED .and. AERO%CATIONS .and. SSf_ix > 0) then !DYTT-IM 12/06/26 replaced with line below
-          if (AERO%CATIONS) then !DYTT-IM 12/06/26 keep cation flag, but assume internal mixing, add pCa, pK, pMg explicitely. Use CATIONS flag with caution - this will lead to a charge imbalance! However, this is the approach taken by the original code, so I will not change it for now.
+          if (AERO%CATIONS) then !DYTT-IM 12/06/26 keep cation flag, but assume internal mixing. Use CATIONS flag with caution - I see no situation in which sea salt anions should be included but not the sea salt cations. However, this is the approach taken by the original code, so I will not change it for now.
             ! mass percentages of sea salt for below species taken from GEOS-Chem
-            WI(6) = MAX(( xn_2d(pCa_ix,k)) * Ncm3_to_molesm3, CONMIN ) !max(0., xn_2d(SSf_ix ,k) * Ncm3_to_molesm3 * species(SSf_ix)%molwt * 0.0116 / MWCA )
-            WI(7) = MAX(( xn_2d(pK_ix,k))  * Ncm3_to_molesm3, CONMIN ) !max(0., xn_2d(SSf_ix ,k) * Ncm3_to_molesm3 * species(SSf_ix)%molwt * 0.0110 / MWK  )
-            WI(8) = MAX(( xn_2d(pMg_ix,k)) * Ncm3_to_molesm3, CONMIN ) !max(0., xn_2d(SSf_ix ,k) * Ncm3_to_molesm3 * species(SSf_ix)%molwt * 0.0369 / MWMG )
+            WI(6) = MAX(( xn_2d(pCa_ix,k)) * Ncm3_to_molesm3, CONMIN ) !DYTT-IM 12/06/26 added pCa as ISORROPIA input. Previously: !max(0., xn_2d(SSf_ix ,k) * Ncm3_to_molesm3 * species(SSf_ix)%molwt * 0.0116 / MWCA )
+            WI(7) = MAX(( xn_2d(pK_ix,k))  * Ncm3_to_molesm3, CONMIN ) !DYTT-IM 12/06/26 added pK as ISORROPIA input. Previously: !max(0., xn_2d(SSf_ix ,k) * Ncm3_to_molesm3 * species(SSf_ix)%molwt * 0.0110 / MWK  )
+            WI(8) = MAX(( xn_2d(pMg_ix,k)) * Ncm3_to_molesm3, CONMIN ) !DYTT-IM 12/06/26 added pMg as ISORROPIA input. Previously: !max(0., xn_2d(SSf_ix ,k) * Ncm3_to_molesm3 * species(SSf_ix)%molwt * 0.0369 / MWMG )
           else
             WI(6) = 0.0
             WI(7) = 0.0
@@ -284,7 +283,7 @@ contains
           ! gas outputs are in moles/m3(air)
           xn_2d(NH3_ix ,k) = max( gas(1), CONMIN ) * molesm3_to_Ncm3
           xn_2d(HNO3_ix,k) = max( gas(2), CONMIN ) * molesm3_to_Ncm3
-          xn_2d(HCl_ix,k)  = max( gas(3), CONMIN ) * molesm3_to_Ncm3 !DYTT 24/04/26 adding in HCl
+          xn_2d(HCl_ix,k)  = max( gas(3), CONMIN ) * molesm3_to_Ncm3 !DYTT 24/04/26 updating HCl after ISORROPIA is called.
   
           ! aerosol outputs are in moles/m3(air)
           xn_2d(NH4_f_ix,k) = max( wt(3) - gas(1), CONMIN ) * molesm3_to_Ncm3
@@ -301,8 +300,8 @@ contains
           !xn_2d(NO3_f_ix,k ) = tmpno3 - xn_2d(HNO3_ix,k)
           !NOV22 - get some v.small neg., so use max below. Test properly later.
           xn_2d(NO3_f_ix,k ) = max( wt(4) - gas(2), CONMIN )  * molesm3_to_Ncm3 
-          xn_2d(pCl_ix,k )   = max( wt(5) - gas(3), CONMIN )  * molesm3_to_Ncm3 !DYTT 24/04/26 updating pCl. Note: this is only the case for NO internal mixing. would need to subtract the sea salt chloride as well but we don't really know what this is - hence the choice to turn off internal mixing
-          !DYTT-IM 12/06/26 Note: do not re-assign cations. No way of telling dust and sea salt cations apart now. Assumption is that their concentrations remain the same before and after calling ISORROPIA. No reason for why they shouldn't stay the same (that I can think of)
+          xn_2d(pCl_ix,k )   = max( wt(5) - gas(3), CONMIN )  * molesm3_to_Ncm3 !DYTT 24/04/26 updating pCl after ISORROPIA is called. 
+          !DYTT-IM 12/06/26 Note: I am not re-assigning the cations after calling ISORROPIA. There is no way of telling dust and sea salt cations apart now. Assumption is that their concentrations remain the same before and after calling ISORROPIA. No reason for why they shouldn't stay the same (that I can think of)
 
     !      H2O_eqsam(i,j,KCHEMTOP:KMAX_MID) = max(0., aH2Oout(KCHEMTOP:KMAX_MID) )
           
@@ -467,26 +466,26 @@ contains
 
 
   if ( debug_flag  ) then ! Selected debug cell
-    write(*,*)'Before EQSAM',xn_2d(SO4_ix,20),xn_2d(HNO3_ix,20),xn_2d(HCl_ix,20),xn_2d(pCl_ix,20),& !DYTT 25/02/26 HCl and pCl
+    write(*,*)'Before EQSAM',xn_2d(SO4_ix,20),xn_2d(HNO3_ix,20),xn_2d(HCl_ix,20),xn_2d(pCl_ix,20),& !DYTT 25/02/26 added HCl and pCl
                xn_2d(NH3_ix,20),xn_2d(NO3_f_ix,20),xn_2d(NH4_f_ix,20)
   end if
 
 !//.... molec/cm3 -> micromoles/m**3
-    so4in(KCHEMTOP:KMAX_MID)  = xn_2d(SO4_ix,KCHEMTOP:KMAX_MID)  *1.e12/AVOG + xn_2d(pSO4_ix,KCHEMTOP:KMAX_MID)  *1.e12/AVOG !DYTT-IM 07/05/26 added on the sea salt component. 
+    so4in(KCHEMTOP:KMAX_MID)  = xn_2d(SO4_ix,KCHEMTOP:KMAX_MID)  *1.e12/AVOG + xn_2d(pSO4_ix,KCHEMTOP:KMAX_MID)  *1.e12/AVOG !DYTT-IM 07/05/26 added the fine sea salt pSO4 component. 
     hno3in(KCHEMTOP:KMAX_MID) = xn_2d(HNO3_ix,KCHEMTOP:KMAX_MID) *1.e12/AVOG
     nh3in(KCHEMTOP:KMAX_MID)  = xn_2d(NH3_ix,KCHEMTOP:KMAX_MID)  *1.e12/AVOG 
     no3in(KCHEMTOP:KMAX_MID)  = xn_2d(NO3_f_ix,KCHEMTOP:KMAX_MID)*1.e12/AVOG 
     nh4in(KCHEMTOP:KMAX_MID)  = xn_2d(NH4_f_ix,KCHEMTOP:KMAX_MID)*1.e12/AVOG
     HClin(KCHEMTOP:KMAX_MID)  = xn_2d(HCl_ix,KCHEMTOP:KMAX_MID)  *1.e12/AVOG !DYTT 25/02/26 added this line
-    !if ( iSeaSalt > 0 .and. AERO%INTERNALMIXED) then !DYTT-IM 07/05/26 removed the option for no internal mixing - see alternative code version for this. 
-    NAin(KCHEMTOP:KMAX_MID)  = xn_2d(pNa_ix,KCHEMTOP:KMAX_MID)*1.e12/AVOG !DYTT-IM 07/05/26 added tracked component instead of calculating it from sea salt
-    CLin(KCHEMTOP:KMAX_MID)  = xn_2d(pCl_ix,KCHEMTOP:KMAX_MID)*1.e12/AVOG !DYTT-IM 07/05/26 added tracked component instead of calculating it from sea salt
-    CAin(KCHEMTOP:KMAX_MID) = xn_2d(pCa_ix,KCHEMTOP:KMAX_MID)*1.e12/AVOG !DYTT-IM 07/05/26 added tracked component instead of calculating it from sea salt
-    MGin(KCHEMTOP:KMAX_MID) = xn_2d(pMg_ix,KCHEMTOP:KMAX_MID)*1.e12/AVOG !DYTT-IM 07/05/26 added tracked component instead of calculating it from sea salt
-    Kin (KCHEMTOP:KMAX_MID) = xn_2d(pK_ix,KCHEMTOP:KMAX_MID)*1.e12/AVOG !DYTT-IM 07/05/26 added tracked component instead of calculating it from sea salt
+    !if ( iSeaSalt > 0 .and. AERO%INTERNALMIXED) then !DYTT-IM 07/05/26 By definition, this code works on the assumption of internally mixed fine sea salt, i.e. AERO%INTERNALMIXED = T. So only the 'if' statement is appropriate, the rest is commented out. 
+    NAin(KCHEMTOP:KMAX_MID)  = xn_2d(pNa_ix,KCHEMTOP:KMAX_MID)*1.e12/AVOG !DYTT-IM 07/05/26 added tracked component instead of calculating it from SSf
+    CLin(KCHEMTOP:KMAX_MID)  = xn_2d(pCl_ix,KCHEMTOP:KMAX_MID)*1.e12/AVOG !DYTT-IM 07/05/26 added tracked component instead of calculating it from SSf
+    CAin(KCHEMTOP:KMAX_MID) = xn_2d(pCa_ix,KCHEMTOP:KMAX_MID)*1.e12/AVOG !DYTT-IM 07/05/26 added tracked component instead of calculating it from SSf
+    MGin(KCHEMTOP:KMAX_MID) = xn_2d(pMg_ix,KCHEMTOP:KMAX_MID)*1.e12/AVOG !DYTT-IM 07/05/26 added tracked component instead of calculating it from SSf
+    Kin (KCHEMTOP:KMAX_MID) = xn_2d(pK_ix,KCHEMTOP:KMAX_MID)*1.e12/AVOG !DYTT-IM 07/05/26 added tracked component instead of calculating it from SSf
     !else
     !  NAin(KCHEMTOP:KMAX_MID)  = 0.0
-    !  CLin(KCHEMTOP:KMAX_MID)  = xn_2d(pCl_ix,KCHEMTOP:KMAX_MID)*1.e12/AVOG !DYTT 25/02/26 changed this. Previously CLin(KCHEMTOP:KMAX_MID)  = 0.0. 
+    !  CLin(KCHEMTOP:KMAX_MID)  = 0.0
     !  CAin(KCHEMTOP:KMAX_MID)  = 0.0
     !  MGin(KCHEMTOP:KMAX_MID)  = 0.0
     !  Kin (KCHEMTOP:KMAX_MID)  = 0.0
@@ -519,10 +518,7 @@ contains
 
       xn_2d(HCl_ix,KCHEMTOP:KMAX_MID)  = max(FLOOR,gClout(KCHEMTOP:KMAX_MID) *AVOG*1.e-12 ) !DYTT 25/02/26 added this line
       xn_2d(pCl_ix,KCHEMTOP:KMAX_MID)  = max(FLOOR,aClout(KCHEMTOP:KMAX_MID) *AVOG*1.e-12 ) !DYTT 25/02/26 added this line
-      !xn_2d(pNa_ix,KCHEMTOP:KMAX_MID)  = max(FLOOR,aNAout(KCHEMTOP:KMAX_MID) *AVOG*1.e-12 ) !DYTT-IM 14/05/26 added this line !DYTT-IM 17/06/26 don't need to reassign this variable, since it shouldn't have changed!
-      !xn_2d(pMg_ix,KCHEMTOP:KMAX_MID)  = max(FLOOR,aMGout(KCHEMTOP:KMAX_MID) *AVOG*1.e-12 ) !DYTT-IM 14/05/26 added this line !DYTT-IM 17/06/26 don't need to reassign this variable, since it shouldn't have changed!
-      !xn_2d(pCa_ix,KCHEMTOP:KMAX_MID)  = max(FLOOR,aCAout(KCHEMTOP:KMAX_MID) *AVOG*1.e-12 ) !DYTT-IM 14/05/26 added this line !DYTT-IM 17/06/26 don't need to reassign this variable, since it shouldn't have changed!
-      !xn_2d(pK_ix,KCHEMTOP:KMAX_MID)   = max(FLOOR,aKout(KCHEMTOP:KMAX_MID) *AVOG*1.e-12 ) !DYTT-IM 14/05/26 added this line !DYTT-IM 17/06/26 don't need to reassign this variable, since it shouldn't have changed!
+      !DYTT-IM 14/05/26 No need to update the fine sea salt cations (pNa, pMg, pCa, pK), as they do not change.
       xn_2d(HNO3_ix,KCHEMTOP:KMAX_MID)  = max(FLOOR,gNO3out(KCHEMTOP:KMAX_MID) *AVOG*1.e-12 )
       xn_2d(NH3_ix,KCHEMTOP:KMAX_MID)   = max(FLOOR,gNH3out(KCHEMTOP:KMAX_MID) *AVOG*1.e-12 )
       xn_2d(NO3_f_ix,KCHEMTOP:KMAX_MID)  = max(FLOOR,aNO3out(KCHEMTOP:KMAX_MID)*AVOG*1.e-12 ) 
@@ -554,7 +550,7 @@ contains
       nh3ins  = nh3in(KMAX_MID:KMAX_MID)
       no3ins  = no3in(KMAX_MID:KMAX_MID)
       nh4ins  = nh4in(KMAX_MID:KMAX_MID)
-  !if ( iSeaSalt > 0 .and. AERO%INTERNALMIXED) then ! DYTT 24/03/26 commented out the first if statement (going back to version from 25/02/26) !DYTT-IM 14/05/26 adapting this for internal mixing, removing option for no internal mixing. For no internal mixing, see alternative code. 
+  !if ( iSeaSalt > 0 .and. AERO%INTERNALMIXED) then !DYTT-IM 14/05/26 By definition, this code works on the assumption of internally mixed fine sea salt, i.e. AERO%INTERNALMIXED = T. So only the 'if' statement is appropriate, the rest is commented out.
       NAins   = NAin(KMAX_MID:KMAX_MID)
       CLins   = CLin(KMAX_MID:KMAX_MID)
       CAins   = CAin(KMAX_MID:KMAX_MID)
@@ -565,7 +561,7 @@ contains
       !CAins   = 0.0
       !MGins   = 0.0
       !Kins    = 0.0
-      !CLins   = CLin(KMAX_MID:KMAX_MID) !DYTT 25/02/26 changed this. Previously CLins   = 0.0
+      !CLins   = 0.0
   !endif
 
 !//.... Only for the lowest layer KMAX_MID
