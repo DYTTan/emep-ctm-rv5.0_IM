@@ -25,7 +25,7 @@ but HCl production was previously not accounted for.)
 The HNO3 + fine sea salt -> HCl + fine NaNO3 reaction is accounted for in the 
 ISORROPIA / EQSAM equilibrium modules. 
 
-HCl equilibrium with NH3 is also accounted for via the ISORROPIA or EQSAM 
+HCl equilibrium with NH3 is also accounted for via the ISORROPIA / EQSAM 
 equilibrium module. 
 
 HCl is removed through wet and dry deposition. 
@@ -76,7 +76,7 @@ code. Setting this to .false. will change nothing.
 
 ### AeroFunctions.f90
 
-Removed any use of SSf, because this variable is no-longer used. 
+Removed any mention of SSf, because this variable is no-longer used. 
 
 ### AerosolCalls.f90
 
@@ -84,12 +84,13 @@ By definition, this code works on the assumption of internally mixed
 fine sea salt, i.e. AERO%INTERNALMIXED = T. Hence all possibilities for
 externally mixed sea salt are commented out.
 
-All instances of fine sea salt (SSf) has been replaced by the individual 
+All instances of fine sea salt (SSf) have been replaced by the individual 
 ionic components of sea salt (pCl, pNa, pK etc.).
 
 Note that the AERO%CATIONS flag determines if pCa, pK and pMg are input 
-into ISORROPIA. Use AERO%CATIONS = F with caution, as I see no situation in 
-which sea salt anions are input into ISORROPIA, but not the sea salt cations.
+into ISORROPIA. This is the approach taken by the original model code rv5.0.
+Use AERO%CATIONS = F with caution, as I see no situation in which sea salt 
+anions are input into ISORROPIA, but not the sea salt cations.
 
 ### BoundaryConditions_mod.f90
 
@@ -100,7 +101,7 @@ Added in boundary conditions for fine sea salt individual ionic components
 
 Replaced fine sea salt with its individual ionic components (pCl, pNa, pCa etc.).
 Need to make assumption that pCl is predominantly sea salt. 
-Assume also that fine sea salt deposits like all other fine PM - a sensible
+It is assumed that fine sea salt deposits like all other fine PM - a sensible
 assumption, since fine sea salt is internally mixed. 
 
 ### CM_ChemDims_mod.f90
@@ -172,7 +173,7 @@ HCl wet deposition is like HNO3, following approach by Wang et al. (2025).
 
 Removed fine sea salt, replacing it with pCl, pNa, pMg, pCa, pK, pSO4 and pRem,
 which all deposit like fine PM, as these are assumed to be internally mixed,
-and therefore deposits at the same rate as all other fine PM. 
+and therefore deposit at the same rate as all other fine PM. 
 
 ### CMX_BoundaryConditions.txt
 
