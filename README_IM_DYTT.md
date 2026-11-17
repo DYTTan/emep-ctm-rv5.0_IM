@@ -1,8 +1,8 @@
 # EMEP MSC-W ACTM rv5.0_IM: adaptation of rv5.0 to include HCl chemistry, assuming internally mixed fine sea salt
 
-Changes made by Damaris Y. T. Tan (damtan@ceh.ac.uk / damaris.tan@ed.ac.uk)
-UK Centre for Ecology & Hydrology / University of Edinburgh 
-Published on Zenodo November 2026.
+Changes made by Damaris Y. T. Tan (damtan@ceh.ac.uk / damaris.tan@ed.ac.uk),
+UK Centre for Ecology & Hydrology / University of Edinburgh.
+To be published on Zenodo shortly.
 Paper describing model changes to be submitted to ACP shortly.
 
 Changes in the code are marked by the author's initials (DYTT). 
@@ -23,8 +23,10 @@ liquid water content treatment as in the earlier version rv4.36.
 HCl chemistry has been added, assuming internal mixing of fine sea salt. 
 
 HCl is produced via direct emissions, and via chemical reaction:
+
 HNO3 + coarse sea salt -> HCl + coarse NaNO3 (this is a pre-existing reaction, 
 but HCl production was previously not accounted for.)
+
 The HNO3 + fine sea salt -> HCl + fine NaNO3 reaction is accounted for in the 
 ISORROPIA / EQSAM equilibrium modules. 
 
@@ -40,23 +42,24 @@ are tracked. This was not previously the case.
 
 8 new species have been added: 
 
-HCl gas.
-pCl: fine particulate chloride. This is both fine chloride associated
-     with NH4Cl and fine chloride associated with fine sea salt. By 
-     definition of internal mixing, both forms of chloride exist in the 
-     same aerosol particle and are indistinguishable. 
-pNa: fine particulate sodium associated with sea salt.
-pMg: fine particulate magnesium associated with sea salt.
-pCa: fine particulate calcium associated with sea salt.
-pK: fine particulate potassium associated with sea salt.
-pSO4: fine particulate sulfate associated with sea salt.
-pRem: the remaining fine particulate component of sea salt, assumed to be 
-      mostly bromide.
+* HCl gas.
+* pCl: fine particulate chloride. This is both fine chloride associated
+       with NH4Cl and fine chloride associated with fine sea salt. By 
+       definition of internal mixing, both forms of chloride exist in the 
+       same aerosol particle and are indistinguishable. 
+* pNa: fine particulate sodium associated with sea salt.
+* pMg: fine particulate magnesium associated with sea salt.
+* pCa: fine particulate calcium associated with sea salt.
+* pK: fine particulate potassium associated with sea salt.
+* pSO4: fine particulate sulfate associated with sea salt.
+* pRem: the remaining fine particulate component of sea salt, assumed to be 
+        mostly bromide.
 
 The SEASALT_F species only exists for the production step. After this, it is 
 replaced by its individual ionic components (pCl, pNa, pMg etc.). 
 
 A note on fine nitrate, NO3_f:
+
 The definition of this species has changed slightly: it is now the fine nitrate
 associated with both NH4NO3 and NaNO3. By definition of internal mixing, these
 exist in the same aerosol particle and are indistinguishable. 
