@@ -17,6 +17,9 @@ https://github.com/metno/emep-ctm, and should be credited accordingly.
 
 ## Overview
 
+This code is based on the EMEP MSC-W model rv5.0, with the same cloud 
+liquid water content treatment as in the earlier version rv4.36.
+
 HCl chemistry has been added, assuming internal mixing of fine sea salt. 
 
 HCl is produced via direct emissions, and via chemical reaction:
@@ -110,11 +113,6 @@ Changed array dimensions to account for the addition of new species and
 emissions.
 
 ### CM_ChemGroups_mod.f90
-
-*** Bugfix: WDEP_PMFINE_GROUP and DDEP_PMFINE_GROUP did not contain OM25_p. 
-Have added this. If there is a good reason why OM25_p was included in 
-PMFINE_GROUP but not the WDEP and DDEP equivalent, I do not know it but 
-would like to find out. ***
 
 Replaced SeaSalt_f with pCl, pNa, pMg, pCa, pK, pSO4 and pRem in various
 groups. 

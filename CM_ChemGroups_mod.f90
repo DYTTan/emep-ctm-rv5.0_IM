@@ -700,19 +700,19 @@ module ChemGroups_mod
       EC_f_nonRes_age, remPPM25_nonRes, remPPM25_Res  &
     /)
   
-  integer, public, target, save, dimension (16+6+1) :: & !DYTT-SS previously 16. -1 for seasalt_f removal. +7 for pCl, pNa, pMg, pK, pCa, pSO4, pRem. !DYTT 07/11/26 bugfix: +1 for missing OM25_p
+  integer, public, target, save, dimension (16+6) :: & !DYTT-SS previously 16. -1 for seasalt_f removal. +7 for pCl, pNa, pMg, pK, pCa, pSO4, pRem.
     WDEP_PMFINE_GROUP = (/  &
       !SO4, NO3_f, NH4_f, ffire_BC, ffire_remPPM25, SeaSalt_f,  & !DYTT commented out this line, replaced by line below
-      SO4, NO3_f, NH4_f, OM25_p, ffire_BC, ffire_remPPM25, pCl, pNa, pMg, pCa, pK, pSO4, pRem,  & !DYTT-SS replaced seasalt_f with pCl, pNa, pMg, pK, pCa, pSO4, pRem. !DYTT 07/11/26 bugfix: added in OM25_p
+      SO4, NO3_f, NH4_f, ffire_BC, ffire_remPPM25, pCl, pNa, pMg, pCa, pK, pSO4, pRem,  & !DYTT-SS replaced seasalt_f with pCl, pNa, pMg, pK, pCa, pSO4, pRem.
       Dust_road_f, Dust_wb_f, Dust_sah_f, Ash_f, EC_f_Res_new,  &
       EC_f_Res_age, EC_f_nonRes_new, EC_f_nonRes_age,  &
       remPPM25_nonRes, remPPM25_Res  &
     /)
   
-  integer, public, target, save, dimension (16+6+1) :: & !DYTT-SS previously 16. !DYTT-SS previously 16. -1 for seasalt_f removal. +7 for pCl, pNa, pMg, pK, pCa, pSO4, pRem. !DYTT 07/11/26 bugfix: +1 for missing OM25_p
+  integer, public, target, save, dimension (16+6) :: & !DYTT-SS previously 16. !DYTT-SS previously 16. -1 for seasalt_f removal. +7 for pCl, pNa, pMg, pK, pCa, pSO4, pRem.
     DDEP_PMFINE_GROUP = (/  &
       !SO4, NO3_f, NH4_f, ffire_BC, ffire_remPPM25, SeaSalt_f,  & !DYTT commented out this line, replaced by line below
-      SO4, NO3_f, NH4_f,  OM25_p, ffire_BC, ffire_remPPM25, pCl, pNa, pMg, pCa, pK, pSO4, pRem, & !DYTT-SS replaced seasalt_f with pCl, pNa, pMg, pK, pCa, pSO4, pRem. !DYTT 07/11/26 bugfix: added in OM25_p
+      SO4, NO3_f, NH4_f, ffire_BC, ffire_remPPM25, pCl, pNa, pMg, pCa, pK, pSO4, pRem, & !DYTT-SS replaced seasalt_f with pCl, pNa, pMg, pK, pCa, pSO4, pRem.
       Dust_road_f, Dust_wb_f, Dust_sah_f, Ash_f, EC_f_Res_new,  &
       EC_f_Res_age, EC_f_nonRes_new, EC_f_nonRes_age,  &
       remPPM25_nonRes, remPPM25_Res  &
